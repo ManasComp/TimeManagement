@@ -30,6 +30,11 @@ namespace FoodOrderApp.Services
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
         }
+        
+        public async Task PushAsync(Page page)
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(page);
+        }
 
         public async Task PopModalAsync()
         {

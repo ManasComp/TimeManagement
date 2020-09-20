@@ -5,7 +5,7 @@
              xmlns:vm="clr-namespace:TimeManagement.Services;assembly=TimeManagement"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              ios:Page.UseSafeArea="True"
-             BackgroundColor="Black"  Title="Master">
+             BackgroundColor="Black" Title="Time Table">
     <ContentPage.BindingContext>
         <vm:ActivityViewModel/>
     </ContentPage.BindingContext>

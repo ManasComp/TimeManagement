@@ -31,9 +31,9 @@ namespace TimeManagement
             }
             else
             {
-                MainPage = new SettingsAndActivityMasterView();
+                MainPage = new ShellView();
             }
-            
+            //MainPage = new SettingsAndActivityMasterView();
         }
 
         protected override async void OnStart()

@@ -6,7 +6,7 @@
                   x:Class="TimeManagement.Views.SettingsAndActivityMasterView"
                   MasterBehavior="Popover">
     <MasterDetailPage.Master>
-       <local:SettingsViewP/>
+       <local:SettingsView/>
     </MasterDetailPage.Master>
 
     <MasterDetailPage.Detail>

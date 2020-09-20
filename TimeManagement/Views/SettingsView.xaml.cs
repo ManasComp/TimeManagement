@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace TimeManagement.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingsViewP : ContentPage
+    public partial class SettingsView : ContentPage
     {
-        public SettingsViewP()
+        public SettingsView()
         {
             InitializeComponent();
         }
