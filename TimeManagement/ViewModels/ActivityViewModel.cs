@@ -2,16 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
 using TimeManagement.Helpers;
 using TimeManagement.Models;
 using TimeManagement.ViewModels;
+using TimeManagement.Views;
 using Xamarin.Forms;
 
 namespace TimeManagement.Services
 {
     public class ActivityViewModel:BaseViewModel
     {
+        public ICommand Next { get; set; }
+        public ICommand Before { get; set; }
+        public ICommand Actual { get; set; }
+        public ICommand Logout { get; set; }
         public string Day => DateTime.Today.DayOfWeek.ToString().ToUpper();
         public string ActualActivityTime => string.Format(_actualActivityStart.Hours + ":" + _actualActivityStart.Minutes + "-" + _actualActivityEnd.Hours + ":" + _actualActivityEnd.Minutes);
         public string NextActivityTime => string.Format(_nextActivityStart.Hours + ":" + _nextActivityStart.Minutes + "-" + _nextActivityEnd.Hours + ":" + _nextActivityEnd.Minutes);
@@ -45,20 +52,25 @@ namespace TimeManagement.Services
         private TimeSpan _nextActivityStart;
         private TimeSpan _nextActivityEnd;
 
-        private readonly Activity _actualActivity;
+        private Activity _actualActivity;
 
         private Dowloanding _dowloanding;
         private int _value;
         private List<Activity> _activities;
         private readonly SqLiteService _sqLiteService;
+        private PageService _pageService;
 
         public ActivityViewModel()
         {
             _sqLiteService = new SqLiteService();
             _activities = new List<Activity>(_sqLiteService.ToListAsync().Result);
+            _pageService = new PageService();
             _actualActivity = _activities
                 .Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
-            _value = 0;
+            Next = new Command(async () => await Add());
+            Before = new Command(async () => await Previous());
+            Actual = new Command(async () => await Default());
+            Logout = new Command(async () => await _pageService.PushModalAsync(new LogoutView()));
             Default();
         }
 
@@ -66,22 +78,27 @@ namespace TimeManagement.Services
         {
             _dowloanding.Download();
             _activities = new List<Activity>(await _sqLiteService.ToListAsync());
+            _actualActivity = _activities
+                .Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
+            Default();
+            _value = 0;
         }
 
-        public void Add()
+        public async Task Add()
         {
             _value++;
             NextAndPrevious(_value);
         }
         
-        public void Previous()
+        public async Task Previous()
         {
             _value--;
             NextAndPrevious(_value);
         }
         
-        private async void Default()
+        private async Task Default()
         {
+            _value = 0;
             Activity previousActivity = _activities[_activities.IndexOf(_actualActivity)-1];// .Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).Where(activity => activity.Start <= DateTime.Now.TimeOfDay).Reverse().Skip(1).Take(1).FirstOrDefault();
             Activity nextActivity = _activities[_activities.IndexOf(_actualActivity)+1]; //*Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).FirstOrDefault(activity => activity.Start >= DateTime.Now.TimeOfDay);
             

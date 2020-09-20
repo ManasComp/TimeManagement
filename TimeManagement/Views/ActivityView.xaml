@@ -15,8 +15,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline" Grid.Row="0" HorizontalOptions="Center"/>
+       <StackLayout Grid.Row="0" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+           <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline"  HorizontalOptions="StartAndExpand"/>
+           <Button Text="Out" Command="{Binding Logout}" CornerRadius="30" WidthRequest="70" BackgroundColor="Red" TextColor="White" HorizontalOptions="End"/>
+       </StackLayout> 
+     
         
         <StackLayout VerticalOptions="Center" Grid.Row="1">
             <Frame BackgroundColor="DarkSlateGray" HasShadow="False">
@@ -40,9 +43,9 @@
         </StackLayout>
         
         <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="FillAndExpand">
-            <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20"/>
-            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20"/>
-            <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Clicked="Button_OnClicked"/>
+            <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/>
+            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}"/>
+            <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/>
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -1,6 +1,6 @@
 ﻿﻿using Xamarin.Forms;
 
-namespace FoodOrderApp.Behaviours
+ namespace TimeManagement.Behaviours
 {
     public class NotNullBehaviour : Behavior<Entry>//changes the background color of entry block (login page)
     {
@@ -13,7 +13,8 @@ namespace FoodOrderApp.Behaviours
         private void Bindable_TextChanged(object sender, TextChangedEventArgs e)
         {
             var entry = sender as Entry;
-            entry.BackgroundColor = entry.Text.Length > 0 ? Color.Default : Color.Red;
+            if(entry!=null)
+                entry.BackgroundColor = entry.Text.Length > 0 ? Color.Default : Color.Red;
         }
 
         protected override void OnDetachingFrom(Entry bindable)

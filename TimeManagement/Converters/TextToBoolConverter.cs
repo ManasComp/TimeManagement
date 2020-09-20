@@ -1,8 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace FoodOrderApp.Converters
+namespace TimeManagement.Converters
 {
     public class TextToBoolConverter:IValueConverter//trigger value - changes IsEnable of buttons on login page
     {

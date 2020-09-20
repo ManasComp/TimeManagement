@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TimeManagement.ViewModels;assembly=TimeManagement"
+             xmlns:converters="clr-namespace:TimeManagement.Converters;assembly=TimeManagement"
+             xmlns:behaviours="clr-namespace:TimeManagement.Behaviours;assembly=TimeManagement"
+             x:Class="TimeManagement.Views.LoginView"
+             BackgroundColor="Gray">
+  <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TextToBoolConverter x:Key="dataConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid>
+            <!-- <MediaElement Source="" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" IsLooping="True"/> -->
+            <Grid VerticalOptions="Center" Opacity="0.6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0" VerticalOptions="Center">
+                    <Label Text="Time Manegment" TextColor="White" FontAttributes="Bold" FontSize="60" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <Label Text="Login Form" TextColor="White" FontSize="40" HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="1" Spacing="10">
+                    <Frame CornerRadius="20">
+                        <StackLayout Orientation="Horizontal">
+                            <!-- <Image Source="{FontImage FontFamily=FontAwesome, -->
+                            <!--     Glyph={x:Static helpers:IconFont.AccountCircle}, Size=30, Color=Black}" -->
+                            <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
+                            
+                            <Entry Placeholder="Enter Username" Text="{Binding Username}" BackgroundColor="Transparent"
+                                   x:Name="EntryUsername"
+                                   HorizontalOptions="FillAndExpand">
+                                <Entry.Behaviors>
+                                    <behaviours:NotNullBehaviour x:Name="UserNN"/>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <Frame CornerRadius="20">
+                        <StackLayout Orientation="Horizontal">
+                            <!-- <Image Source="{FontImage FontFamily=FontAwesome, -->
+                            <!--     Glyph={x:Static helpers:IconFont.Lock}, Size=30, Color=Black}" -->
+                            <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
+                            
+                            <Entry Placeholder="Enter Password" Text="{Binding Password}" IsPassword="True"
+                                   BackgroundColor="Transparent"
+                                   x:Name="EntryPassword"
+                                   HorizontalOptions="FillAndExpand">
+                                <Entry.Behaviors>
+                                    <behaviours:NotNullBehaviour x:Name="PasswordNN"/>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </StackLayout>
+                    </Frame>
+
+                    <Button Text="Login" HorizontalOptions="Center" BackgroundColor="Purple"
+                            TextColor="White" WidthRequest="200" HeightRequest="60" CornerRadius="20"
+                            Command="{Binding LoginCommand}" IsEnabled="{Binding Disable, Mode=TwoWay}">
+                        <Button.Triggers>
+                            <MultiTrigger TargetType="Button">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={x:Reference EntryUsername},
+                                        Path=Text, Converter={StaticResource dataConverter}}" Value="True"/>
+                                    <BindingCondition Binding="{Binding Source={x:Reference EntryPassword},
+                                        Path=Text, Converter={StaticResource dataConverter}}" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Label Text="NewUsers:" TextColor="White" FontAttributes="Bold"/>
+                    
+                    <StackLayout Orientation="Horizontal">
+                       <CheckBox x:Name="CheckBoxAgrree" VerticalOptions="Center" Color="White" IsChecked="True"/>
+                       <Label Text="I agree that data are not secured" TextColor="White" VerticalOptions="Center" FontAttributes="Bold"/>
+                    </StackLayout>
+
+                    <Button Text="Register" HorizontalOptions="Center" BackgroundColor="DarkOrange"
+                            TextColor="White" WidthRequest="200" HeightRequest="60" CornerRadius="20"
+                            Command="{Binding RegisterCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding Source={x:Reference CheckBoxAgrree}, Path=IsChecked}" Value="False">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

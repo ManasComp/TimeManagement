@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeManagement.Views.LogoutView"
+             xmlns:vm="clr-namespace:TimeManagement.ViewModels;assembly=TimeManagement"
+             xmlns:converters="clr-namespace:TimeManagement.Converters;assembly=TimeManagement"
+             xmlns:behaviours="clr-namespace:TimeManagement.Behaviours;assembly=TimeManagement">
+    <ContentPage.BindingContext>
+        <vm:LogoutViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid BackgroundColor="Black">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            
+                <!-- <ImageButton Source="{FontImage FontFamily=FontAwesome, -->
+                <!--         Glyph={x:Static helpers:IconFont.ArrowLeft}, Size=30, Color=White}" -->
+                <!--              Grid.Row="0" HorizontalOptions="Start" Aspect="AspectFit" -->
+                <!--              VerticalOptions="Start" Margin="10,30" Clicked="ImageButton_OnClicked"/> -->
+            
+                <Label Text="Time Manegment" FontSize="40" TextColor="WhiteSmoke"
+                       FontFamily="CabinSketch" HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="0"/>
+                
+                <StackLayout Grid.Row="1" HorizontalOptions="Center">
+                    <Label Text="Are zou sure wanted to logout?"/>
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Button Text="Yes, Logout" HorizontalOptions="Center"
+                                CornerRadius="20" Command="{Binding LogoutCommand}"
+                                BackgroundColor="Red"/>
+                        <Button Text="No, go to ActivityView" HorizontalOptions="Center"
+                                BackgroundColor="Green"
+                                CornerRadius="20" Command="{Binding GoToActivityViewCommand}"/>
+                    </StackLayout>
+                </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
