@@ -24,7 +24,7 @@ namespace TimeManagement.ViewModels
         private async Task GoToActivityView()
         {
             await AnalyticsHelper.TrackEventAsync($"GoToCartAsync");
-            await _pageService.PushModalAsync(new ActivityView());
+            await _pageService.PushModalAsync(new SettingsAndActivityMasterView());
         }
 
         private async Task LogoutUserAsync()

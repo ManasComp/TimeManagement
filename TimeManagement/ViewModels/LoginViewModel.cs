@@ -123,7 +123,7 @@ namespace TimeManagement.ViewModels
             if (Result)
             {
                 _pageService.SetUsername(Username);
-                await _pageService.PushModalAsync(new ActivityView());
+                await _pageService.PushModalAsync(new SettingsAndActivityMasterView());
             }
             else
             {
