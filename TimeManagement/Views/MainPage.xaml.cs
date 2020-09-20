@@ -21,7 +21,7 @@ namespace TimeManagement
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            new SqLiteService().CreateTableAsync();
+            new MainVIewModel().refresh();
         }
     }
 }

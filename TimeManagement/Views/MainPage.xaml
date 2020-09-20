@@ -14,25 +14,25 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <Label Text="MONDAY" TextColor="White" FontSize="50" TextDecorations="Underline" Grid.Row="0" HorizontalOptions="Center"/>
+        <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline" Grid.Row="0" HorizontalOptions="Center"/>
         
         <StackLayout VerticalOptions="Center" Grid.Row="1">
             <Frame BackgroundColor="DarkSlateGray" HasShadow="False">
                 <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand">
-                    <Label TextColor="White" BackgroundColor="Transparent" Text="09:35 - 12:00" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="White" BackgroundColor="Transparent" Text="SCHOOL" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding previousActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding previousActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
                 </StackLayout>
             </Frame>
             <Frame BackgroundColor="Gray" BorderColor="White" HasShadow="False">
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding Time}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="White" BackgroundColor="Transparent" x:Name="Label" Text="{Binding Name}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding actualActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" x:Name="Label" Text="{Binding ActualActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
                 </StackLayout>
             </Frame>
             <Frame BackgroundColor="DarkSlateGray" HasShadow="False">
                 <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label TextColor="White" BackgroundColor="Transparent" Text="09:35 - 12:00" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="White" BackgroundColor="Transparent" Text="SCHOOL" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding nextActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding nextActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
                 </StackLayout>
             </Frame>
         </StackLayout>

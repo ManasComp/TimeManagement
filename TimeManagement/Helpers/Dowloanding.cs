@@ -8,30 +8,29 @@ using TimeManagement.Services;
 
 namespace TimeManagement.Helpers
 {
-    public class Dowloanding
+    public class Dowloanding 
     {
-        List<DayProgram> activities;
-        private List<Activity> mrdka =new List<Activity>();
+        private List<DayProgram> activities;
+        private FirebaseService firebaseService;
+        private SqLiteService service;
+
+        public Dowloanding()
+        {
+            firebaseService = new FirebaseService();
+            service = new SqLiteService();
+        }
 
         public async void Dowloand()
         {
-            FirebaseService firebaseService = new FirebaseService();
-            List<Activity> mrdka = new List<Activity>();
             activities = (await firebaseService.OnceAsync<List<DayProgram>>("DayPrograms")).FirstOrDefault();
-            SqLiteService service = new SqLiteService();
             await service.DeleteAllAsync();
             foreach (DayProgram program in activities)
             {
                 foreach (Activity activity in program)
                 {
                     activity.Day = activities.IndexOf(program);
-                    mrdka.Add(activity);
+                    await service.InsertAsync(activity);
                 }
-            }
-
-            foreach (Activity activity in mrdka)
-            {
-                await service.InsertAsync(activity);
             }
         }
     }
