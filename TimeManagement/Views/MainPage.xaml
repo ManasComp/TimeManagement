@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TimeManagement.MainPage" BackgroundColor="Black"
+             xmlns:vm="clr-namespace:TimeManagement.Services;assembly=TimeManagement">
+
+    <ContentPage.BindingContext>
+        <vm:MainVIewModel/>
+    </ContentPage.BindingContext>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label Text="MONDAY" TextColor="White" FontSize="50" TextDecorations="Underline" Grid.Row="0" HorizontalOptions="Center"/>
+        
+        <StackLayout VerticalOptions="Center" Grid.Row="1">
+            <Frame BackgroundColor="DarkSlateGray" HasShadow="False">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="09:35 - 12:00" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="SCHOOL" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="Gray" BorderColor="White" HasShadow="False">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="{Binding Time}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" x:Name="Label" Text="{Binding Name}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="DarkSlateGray" HasShadow="False">
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="09:35 - 12:00" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                    <Label TextColor="White" BackgroundColor="Transparent" Text="SCHOOL" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+        
+        <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="FillAndExpand">
+            <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20"/>
+            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20"/>
+            <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Clicked="Button_OnClicked"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>
