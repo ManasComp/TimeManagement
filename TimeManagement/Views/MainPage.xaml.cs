@@ -18,10 +18,5 @@ namespace TimeManagement
             
             InitializeComponent();
         }
-
-        private void Button_OnClicked(object sender, EventArgs e)
-        {
-            new MainVIewModel().refresh();
-        }
     }
 }

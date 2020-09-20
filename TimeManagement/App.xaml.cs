@@ -1,6 +1,7 @@
 ﻿using System;
 using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
+using TimeManagement.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,7 +21,7 @@ namespace TimeManagement
 
             isCartTabbleCreated = _pageService.GetIsCartTableCreated();
             
-            MainPage = new MainPage();
+            MainPage = new ActivityView();
         }
 
         protected override async void OnStart()
