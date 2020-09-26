@@ -22,6 +22,7 @@ namespace FoodOrderApp.Services.DatabaseService
         public Task CreateTableAsync()
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
+            _sqLiteConnection.DropTable<Activity>();
             _sqLiteConnection.CreateTable<Activity>();
             _sqLiteConnection.Close();
             return Task.CompletedTask;

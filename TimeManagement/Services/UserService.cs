@@ -1,6 +1,8 @@
-﻿﻿using FoodOrderApp.Model;
+﻿﻿using System;
+ using FoodOrderApp.Model;
 using System.Linq;
-using System.Threading.Tasks;
+ using System.Runtime.InteropServices;
+ using System.Threading.Tasks;
  using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
  using TimeManagement.Services;
@@ -21,7 +23,7 @@ namespace FoodOrderApp.Services
         {
             if (await IsUserExists(uname) == false)
             {
-                await _firebaseService.PostAsync("Users", new User() { Username = uname, Password = passwd });
+                await _firebaseService.PostAsync("Users", new User() { Username = uname, Password = passwd, Id=Guid.NewGuid().ToString()});
                 return true;
             }
             else

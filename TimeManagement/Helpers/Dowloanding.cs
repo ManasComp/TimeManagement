@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
 using TimeManagement.Models;
 using TimeManagement.Services;
@@ -22,7 +23,9 @@ namespace TimeManagement.Helpers
 
         public async void Download()
         {
-            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>("DayPrograms")).FirstOrDefault();
+            PageService pageService = new PageService();
+            string id = pageService.ReturnId();
+            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(id)).FirstOrDefault();
             await _service.DeleteAllAsync();
             foreach (DayProgram program in _activities)
             {

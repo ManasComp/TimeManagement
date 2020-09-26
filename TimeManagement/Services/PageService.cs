@@ -20,6 +20,16 @@ namespace FoodOrderApp.Services
         {
             Preferences.Set("Username", value);
         }
+        
+        public string ReturnId(string original = "mrkda")
+        {
+            return Preferences.Get("Id", original);
+        }
+
+        public void SetId(string value)
+        {
+            Preferences.Set("Id", value);
+        }
 
         public void RemoveUsername()
         {

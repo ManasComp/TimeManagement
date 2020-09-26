@@ -63,11 +63,20 @@ namespace TimeManagement.Services
         public ActivityViewModel()
         {
             _sqLiteService = new SqLiteService();
-            _activities = new List<Activity>(_sqLiteService.ToListAsync().Result);
+            var rkdy = _sqLiteService.ToListAsync().Result;
+            _activities = new List<Activity>();
+            var hovno = rkdy.ToArray();
+            foreach (var variable in hovno)
+            {
+                Activity activity = variable;
+                _activities.Add(activity);
+            }
             _pageService = new PageService();
 
-            _actualActivity = _activities
-                .Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
+            var hovno1 = _activities.Where(activity => (activity.Day == (int) DateTime.Today.DayOfWeek - 1));
+
+            List<Activity> randal = hovno1.ToList();
+            _actualActivity = randal.LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
             Next = new Command(async () => await Add());
             Before = new Command(async () => await Previous());
             Actual = new Command(async () => await Default());

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FoodOrderApp.Helpers;
+using FoodOrderApp.Model;
 using FoodOrderApp.Services;
+using TimeManagement.Services;
 using TimeManagement.Views;
 using Xamarin.Forms;
 
@@ -123,7 +126,12 @@ namespace TimeManagement.ViewModels
             if (Result)
             {
                 _pageService.SetUsername(Username);
-                await _pageService.PushModalAsync(new SettingsAndActivityMasterView());
+                //var mdka = new FirebaseService().OnceAsync<User>("Users").Result;
+               string id = (await new FirebaseService().OnceAsync<User>("Users"))
+                   .Where(u => u.Username == Username)
+                   .FirstOrDefault(u => u.Password == Password).Id;
+               _pageService.SetId(id);
+                await _pageService.PushModalAsync(new SettingsView());
             }
             else
             {
