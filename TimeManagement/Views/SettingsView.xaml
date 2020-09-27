@@ -7,7 +7,7 @@
              BackgroundColor="Gray"
              Title="Settings">
     <ContentPage.BindingContext>
-        <vm:SettingsViewModel/>
+        <vm:AboutViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid HorizontalOptions="Center">

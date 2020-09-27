@@ -24,8 +24,8 @@ namespace TimeManagement
             
             Crashes.SetEnabledAsync(true);
             Microsoft.AppCenter.Analytics.Analytics.SetEnabledAsync(true);
-            isCartTabbleCreated = _pageService.GetIsCartTableCreated();
-            string uname = _pageService.ReturnUsername(string.Empty);
+            isCartTabbleCreated = _pageService.GetIsCartTableCreated().Result;
+            string uname = _pageService.ReturnUsername(string.Empty).Result;
             if (String.IsNullOrEmpty(uname))
             {
                 MainPage = new LoginView();

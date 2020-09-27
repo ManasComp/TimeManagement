@@ -17,29 +17,32 @@ namespace FoodOrderApp.Services
             return await Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
         }
 
-        public string ReturnUsername(string defaultValue= "Guest")
+        public async Task<string> ReturnUsername(string defaultValue= "Guest")
         {
             return Preferences.Get("Username", defaultValue);
         }
 
-        public void SetUsername(string value)
+        public Task SetUsername(string value)
         {
             Preferences.Set("Username", value);
+            return Task.CompletedTask;
         }
         
-        public string ReturnId(string defaultValue = "GuestId")
+        public async Task<string> ReturnId(string defaultValue = "GuestId")
         {
             return Preferences.Get("Id", defaultValue);
         }
 
-        public void SetId(string value)
+        public Task SetId(string value)
         {
             Preferences.Set("Id", value);
+            return Task.CompletedTask;
         }
 
-        public void RemoveUsername()
+        public Task RemoveUsername()
         {
             Preferences.Remove("Username");
+            return Task.CompletedTask;
         }
 
         public async Task PushModalAsync(Page page)
@@ -57,17 +60,17 @@ namespace FoodOrderApp.Services
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        public bool GetIsCartTableCreated()
+        public async Task<bool> GetIsCartTableCreated()
         {
            return Preferences.Get("isCartItemTableCreated", false);
         }
         
-        public async void SetIsCartTableCreated(bool value)
+        public async Task SetIsCartTableCreated(bool value)
         {
             Preferences.Set("isCartItemTableCreated", value);
         }
         
-        public async void RestartApp()
+        public async Task RestartApp()
         {
             (Application.Current).MainPage = new ShellView();
         }

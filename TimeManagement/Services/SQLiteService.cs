@@ -15,7 +15,7 @@ namespace FoodOrderApp.Services.DatabaseService
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
         }
-        public int Count<T>() where T : new()
+        public async Task<int> Count<T>() where T : new()
         {
             int count = _sqLiteConnection.Table<T>().Count();
             _sqLiteConnection.Close();

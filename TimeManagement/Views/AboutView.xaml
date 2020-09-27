@@ -7,7 +7,7 @@
              NavigationPage.HasBackButton="True"
              Title="About Us">
     <ContentPage.BindingContext>
-        <vm:SettingsViewModel/>
+        <vm:AboutViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid HorizontalOptions="Center" VerticalOptions="Center">

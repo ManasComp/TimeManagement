@@ -103,7 +103,7 @@ namespace TimeManagement.Services
             return string.Format($"{start:hh\\:mm}" + " - " + $"{end:hh\\:mm}");
         }
 
-        private void SetValues()
+        private async void SetValues()
         {
             ActualActivityTime = ToStringFormat(_actualShowedActivity.Start, _actualShowedActivity.End);
             NextActivityTime=ToStringFormat(_nextShowedActivity.Start, _nextShowedActivity.End);
@@ -111,12 +111,12 @@ namespace TimeManagement.Services
             Day=Enum.GetName(typeof(DayOfWeek),_actualShowedActivity.Day).ToString().ToUpper();
         }
 
-        public async void ToRun()
+        public async Task ToRun()
         {
             List<Activity> SQlitedata = _sqLiteService.ToListAsync().Result;
             if (SQlitedata.Count == 0)
             {
-                _dowloanding.Download();
+                await _dowloanding.Download();
                 SQlitedata = _sqLiteService.ToListAsync().Result;
             }
             else
@@ -127,21 +127,21 @@ namespace TimeManagement.Services
                     .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
                 Next = new Command(async () => await Add());
                 Before = new Command(async () => await Previous());
-                Actual = new Command(async () => NextAndPrevious(0));
-                NextAndPrevious(0);
+                Actual = new Command(async () => await NextAndPrevious(0));
+                await NextAndPrevious(0);
             }
         }
 
         public async Task Add()
         {
             _value++;
-            NextAndPrevious(_value);
+            await NextAndPrevious(_value);
         }
         
         public async Task Previous()
         {
             _value--;
-            NextAndPrevious(_value);
+            await NextAndPrevious(_value);
         }
 
         private int Activities(int actualIndex)
@@ -153,7 +153,7 @@ namespace TimeManagement.Services
             return actualIndex;
         }
 
-        private async void NextAndPrevious(int nextItems)
+        private async Task NextAndPrevious(int nextItems)
         {
             if (nextItems == 0)
             {
