@@ -22,14 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ToDelete\SettingsAndActivityMasterView.xaml.cs">
-      <DependentUpon>SettingsAndActivityMasterView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="ToDelete\LogoutView.xaml.cs">
-      <DependentUpon>LogoutView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
