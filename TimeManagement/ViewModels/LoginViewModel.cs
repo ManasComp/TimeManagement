@@ -68,7 +68,7 @@ namespace TimeManagement.ViewModels
             try
             {
                 await AnalyticsHelper.TrackEventAsync($"Register Command Executing for {Username}");
-                await Register();
+                Register();
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace TimeManagement.ViewModels
             }
         }
 
-        private async Task Register()
+        private async void Register()
         {
             IsBusy = true;
             var userService = new UserService();
@@ -104,7 +104,7 @@ namespace TimeManagement.ViewModels
             try
             {
                 await AnalyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
-                await Login();
+                Login();
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace TimeManagement.ViewModels
             }
         }
 
-        private async Task Login()
+        private async void Login()
         {
             IsBusy = true;
             var userService = new UserService();

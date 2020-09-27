@@ -88,7 +88,7 @@ namespace TimeManagement.Services
         private List<Activity> _activities;
         private readonly SqLiteService _sqLiteService;
         private PageService _pageService;
-        private Dowloanding _dowloanding;
+        private readonly Dowloanding _dowloanding;
 
         public ActivityViewModel()
         {
@@ -97,8 +97,8 @@ namespace TimeManagement.Services
             _dowloanding = new Dowloanding();
             ToRun();
         }
-        
-        public string ToStringFormat(TimeSpan start, TimeSpan end)
+
+        private string ToStringFormat(TimeSpan start, TimeSpan end)
         {
             return string.Format($"{start:hh\\:mm}" + " - " + $"{end:hh\\:mm}");
         }
@@ -113,15 +113,15 @@ namespace TimeManagement.Services
 
         public async Task ToRun()
         {
-            List<Activity> SQlitedata = _sqLiteService.ToListAsync().Result;
-            if (SQlitedata.Count == 0)
+            List<Activity> sQlitedata = _sqLiteService.ToListAsync().Result;
+            if (sQlitedata.Count == 0)
             {
                 await _dowloanding.Download();
-                SQlitedata = _sqLiteService.ToListAsync().Result;
+                sQlitedata = _sqLiteService.ToListAsync().Result;
             }
             else
             {
-                _activities = new List<Activity>(SQlitedata);
+                _activities = new List<Activity>(sQlitedata);
             
                 _actualActivity = _activities.Where(activity => activity.Day == (int) DateTime.Today.DayOfWeek)
                     .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);

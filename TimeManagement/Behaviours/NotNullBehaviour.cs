@@ -12,8 +12,7 @@
 
         private void Bindable_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var entry = sender as Entry;
-            if(entry!=null)
+            if(sender is Entry entry)
                 entry.BackgroundColor = entry.Text.Length > 0 ? Color.Default : Color.Red;
         }
 

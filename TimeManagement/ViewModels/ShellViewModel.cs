@@ -35,7 +35,7 @@ namespace TimeManagement.ViewModels
         }
         private async Task LoadNewData()
         {
-            _dowloanding.Download();
+            await _dowloanding.Download();
             await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
         }
         
@@ -45,7 +45,7 @@ namespace TimeManagement.ViewModels
             if (wantLogout)
             {
                 await AnalyticsHelper.TrackEventAsync($"LogoutUser");
-                _pageService.RemoveUsername();
+                await _pageService.RemoveUsername();
                 _sqLiteService = new SqLiteService();
                 await _sqLiteService.DeleteAllAsync();
                 await _pageService.PushModalAsync(new LoginView());
