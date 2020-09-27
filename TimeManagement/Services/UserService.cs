@@ -9,7 +9,7 @@ namespace TimeManagement.Services
     class UserService//it provides Login and Registration to the FirebaseDatabase
     {
         private readonly FirebaseService _firebaseService;
-        private string _userChild = "Users";
+        private readonly string _userChild = "Users";
         public UserService()
         {
             _firebaseService = new FirebaseService();

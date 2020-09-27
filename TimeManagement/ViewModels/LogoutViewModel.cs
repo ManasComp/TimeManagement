@@ -31,11 +31,15 @@ namespace TimeManagement.ViewModels
         private SqLiteService sqLiteService;
         private async Task LogoutUserAsync()
         {
-            await AnalyticsHelper.TrackEventAsync($"LogoutUser");
-            _pageService.RemoveUsername();
-            sqLiteService = new SqLiteService();
-            await sqLiteService.DeleteAllAsync();
-            await _pageService.PushModalAsync(new LoginView());
+            bool wantLogout = await _pageService.DisplayAlert("Warning", "Do you really want to log out?", "Yes", "No");
+            if (wantLogout)
+            {
+                await AnalyticsHelper.TrackEventAsync($"LogoutUser");
+                _pageService.RemoveUsername();
+                sqLiteService = new SqLiteService();
+                await sqLiteService.DeleteAllAsync();
+                await _pageService.PushModalAsync(new LoginView());
+            }
         }
     }
 }

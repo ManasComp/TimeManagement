@@ -15,21 +15,53 @@ using Xamarin.Forms;
 
 namespace TimeManagement.Services
 {
-    public class ActivityViewModel:BaseViewModel
+    public class ActivityViewModel : BaseViewModel
     {
         public ICommand Next { get; set; }
         public ICommand Before { get; set; }
         public ICommand Actual { get; set; }
         private string _day;
+
         public string Day
         {
             set => SetValue(ref _day, value);
             get => _day;
         }
-        public string ActualActivityTime => string.Format(_actualActivityStart.Hours + ":" + _actualActivityStart.Minutes + "-" + _actualActivityEnd.Hours + ":" + _actualActivityEnd.Minutes);
-        public string NextActivityTime => string.Format(_nextActivityStart.Hours + ":" + _nextActivityStart.Minutes + "-" + _nextActivityEnd.Hours + ":" + _nextActivityEnd.Minutes);
-        public string PreviousActivityTime => string.Format(_previousActivityStart.Hours + ":" + _previousActivityStart.Minutes + "-" + _previousActivityEnd.Hours + ":" + _previousActivityEnd.Minutes);
+
+        private string _actualActivityTime;
+        public string ActualActivityTime
+        {
+            set => SetValue(ref _actualActivityTime, value);
+            get => _actualActivityTime;
+        }
         
+        private string _nextActivityTime;
+        public string NextActivityTime
+        {
+            set => SetValue(ref _nextActivityTime, value);
+            get => _nextActivityTime;
+        }
+        
+        private string _previousActivityTime;
+        public string PreviousActivityTime
+        {
+            set => SetValue(ref _previousActivityTime, value);
+            get => _previousActivityTime;
+        }
+
+        public string ToStringFormat(TimeSpan start, TimeSpan end)
+        {
+            return string.Format($"{start:hh\\:mm}" + " - " + $"{end:hh\\:mm}");
+        }
+
+        private void SetValues()
+        {
+            ActualActivityTime = ToStringFormat(_actualActivityStart, _actualActivityEnd);
+            NextActivityTime=ToStringFormat(_nextActivityStart, _nextActivityEnd);
+            PreviousActivityTime = ToStringFormat(_previousActivityStart, _previousActivityEnd);
+            Day=Enum.GetName(typeof(DayOfWeek),_actualShowedActivity.Day).ToString().ToUpper();
+        }
+
         private string _actualActivityName;
         public string ActualActivityName
         {
@@ -59,31 +91,47 @@ namespace TimeManagement.Services
         private TimeSpan _nextActivityEnd;
 
         private Activity _actualActivity;
-
+        private Activity _actualShowedActivity;
 
         private int _value;
         private List<Activity> _activities;
-        private readonly SqLiteService _sqLiteService;
+        private SqLiteService _sqLiteService;
         private PageService _pageService;
 
         public ActivityViewModel()
         {
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
-            var mrdka = _sqLiteService.ToListAsync().Result;
-            if (mrdka.Count == 0)
+            ToRun();
+        }
+
+        public async void ToRun()
+        {
+            List<Activity> SQlitedata = _sqLiteService.ToListAsync().Result;
+            if (SQlitedata.Count == 0)
             {
-                new SettingsViewModel().Refresh.Execute(null);
-                mrdka = _sqLiteService.ToListAsync().Result;
+                var mrdka = new Dowloanding();
+                mrdka.Download();
+                Thread.Sleep(5000);
+                _sqLiteService = new SqLiteService();
+                Thread.Sleep(5000);
+                SQlitedata = _sqLiteService.ToListAsync().Result;
             }
-            _activities = new List<Activity>(mrdka);
+            if (SQlitedata.Count == 0)
+            {
+                await _pageService.DisplayAlert("Error", "problem with data", "OK");
+            }
+            else
+            {
+                _activities = new List<Activity>(SQlitedata);
             
-            _actualActivity = _activities.Where(activity => activity.Day == (int) DateTime.Today.DayOfWeek)
-                .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
-            Next = new Command(async () => await Add());
-            Before = new Command(async () => await Previous());
-            Actual = new Command(async () => await Default());
-            Default();
+                _actualActivity = _activities.Where(activity => activity.Day == (int) DateTime.Today.DayOfWeek)
+                    .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
+                Next = new Command(async () => await Add());
+                Before = new Command(async () => await Previous());
+                Actual = new Command(async () => NextAndPrevious(0));
+                NextAndPrevious(0);
+            }
         }
 
         public async Task Add()
@@ -98,28 +146,6 @@ namespace TimeManagement.Services
             NextAndPrevious(_value);
         }
         
-        private async Task Default()
-        {
-            _value = 0;
-            Activity previousActivity = _activities[_activities.IndexOf(_actualActivity)-1];// .Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).Where(activity => activity.Start <= DateTime.Now.TimeOfDay).Reverse().Skip(1).Take(1).FirstOrDefault();
-            Activity nextActivity = _activities[_activities.IndexOf(_actualActivity)+1]; //*Where(activity => activity.Id==(int) DateTime.Today.DayOfWeek).FirstOrDefault(activity => activity.Start >= DateTime.Now.TimeOfDay);
-            
-            _actualActivityStart = _actualActivity.Start;
-            _actualActivityEnd = _actualActivity.End;
-            ActualActivityName = _actualActivity.Name;
-
-            _previousActivityStart = previousActivity.Start;
-            _previousActivityEnd = previousActivity.End;
-            PreviousActivityName = previousActivity.Name;
-            
-            _nextActivityStart = nextActivity.Start;
-            _nextActivityEnd = nextActivity.End;
-            NextActivityName = nextActivity.Name;
-            
-            Day=DateTime.Today.DayOfWeek.ToString().ToUpper();
-        }
-
-        private Activity actualShowedActivity;
         private async void NextAndPrevious(int nextItems)
         {
             int actualIndex = _activities.IndexOf(_actualActivity) + nextItems;
@@ -127,25 +153,25 @@ namespace TimeManagement.Services
                 actualIndex = actualIndex-_activities.Count;
             if (actualIndex < 0)
                 actualIndex = actualIndex + _activities.Count;
-            actualShowedActivity = _activities[actualIndex];
+            _actualShowedActivity = _activities[actualIndex];
             
-            int previousIndex = _activities.IndexOf(actualShowedActivity)-1;
+            int previousIndex = _activities.IndexOf(_actualShowedActivity)-1;
             if (previousIndex > _activities.Count)
                 previousIndex = previousIndex-_activities.Count;
             if (previousIndex < 0)
                 previousIndex = previousIndex+_activities.Count;
             Activity previousActivity = _activities[previousIndex];
             
-            int nextIndex = _activities.IndexOf(actualShowedActivity)+1;
+            int nextIndex = _activities.IndexOf(_actualShowedActivity)+1;
             if (nextIndex > _activities.Count-1)
                 nextIndex = nextIndex-_activities.Count;
             if (nextIndex < 0)
                 nextIndex = nextIndex+_activities.Count;
             Activity nextActivity = _activities[nextIndex];
             
-            _actualActivityStart = actualShowedActivity.Start;
-            _actualActivityEnd = actualShowedActivity.End;
-            ActualActivityName = actualShowedActivity.Name;
+            _actualActivityStart = _actualShowedActivity.Start;
+            _actualActivityEnd = _actualShowedActivity.End;
+            ActualActivityName = _actualShowedActivity.Name;
 
             _previousActivityStart = previousActivity.Start;
             _previousActivityEnd = previousActivity.End;
@@ -155,8 +181,7 @@ namespace TimeManagement.Services
             _nextActivityEnd = nextActivity.End;
             NextActivityName = nextActivity.Name;
             
-            Day=Enum.GetName(typeof(DayOfWeek),actualShowedActivity.Day).ToString().ToUpper();
-            //Day = String.Format("{0}, {1}, {2}", previousIndex, actualIndex, nextIndex);
+            SetValues();
         }
     }
 }

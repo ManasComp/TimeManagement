@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TimeManagement.Views.ShellView"
              xmlns:local="clr-namespace:TimeManagement.Views;assembly=TimeManagement">
-
     
     <Shell.FlyoutHeader>
         <ContentView xmlns="http://xamarin.com/schemas/2014/forms"

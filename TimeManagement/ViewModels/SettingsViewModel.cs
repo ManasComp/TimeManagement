@@ -37,7 +37,6 @@ namespace TimeManagement.ViewModels
         {
             _dowloanding.Download();
             await _pageService.DisplayAlert("Refreshing", "Refreshing completed", "ok");
-            //await _pageService.PushAsync(new ShellView());
         }
     }
 }

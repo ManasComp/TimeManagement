@@ -126,8 +126,7 @@ namespace TimeManagement.ViewModels
             if (Result)
             {
                 _pageService.SetUsername(Username);
-                //var mdka = new FirebaseService().OnceAsync<User>("Users").Result;
-               string id = (await new FirebaseService().OnceAsync<User>("Users"))
+                string id = (await new FirebaseService().OnceAsync<User>("Users"))
                    .Where(u => u.Username == Username)
                    .FirstOrDefault(u => u.Password == Password).Id;
                _pageService.SetId(id);

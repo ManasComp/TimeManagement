@@ -20,11 +20,11 @@ namespace TimeManagement.Views
 
         private async void RefreshData_OnClicked(object sender, EventArgs e)
         {
-           await  new SettingsViewModel().LoadNewData();
+           await new SettingsViewModel().LoadNewData();
         }
-        private void Logout_OnClicked(object sender, EventArgs e)
+        private async void Logout_OnClicked(object sender, EventArgs e)
         {
-            new PageService().PushModalAsync(new LogoutView());
+            new LogoutViewModel().LogoutCommand.Execute(null);
         }
         private void About_OnClicked(object sender, EventArgs e)
         {

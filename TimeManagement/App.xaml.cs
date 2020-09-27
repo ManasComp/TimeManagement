@@ -20,7 +20,6 @@ namespace TimeManagement
             
             _pageService = new PageService();
             _sqLiteService = new SqLiteService();
-            _sqLiteService.CreateTableAsync();
             InitializeComponent();
             
             Crashes.SetEnabledAsync(true);
