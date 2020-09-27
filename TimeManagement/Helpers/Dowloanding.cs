@@ -39,7 +39,7 @@ namespace TimeManagement.Helpers
                         await _service.InsertAsync(activity);
                     }
                 }
-                (Application.Current).MainPage = new ShellView();
+                _pageService.RestartApp();
             }
         }
     }

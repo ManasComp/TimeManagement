@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TimeManagement.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -66,5 +67,9 @@ namespace FoodOrderApp.Services
             Preferences.Set("isCartItemTableCreated", value);
         }
         
+        public async void RestartApp()
+        {
+            (Application.Current).MainPage = new ShellView();
+        }
     }
 }

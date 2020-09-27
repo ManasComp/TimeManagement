@@ -36,7 +36,7 @@ namespace TimeManagement.ViewModels
         public async Task LoadNewData()
         {
             _dowloanding.Download();
-            await _pageService.DisplayAlert("Refreshing", "Refreshing completed! Reset the Application.", "ok");
+            await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
         }
     }
 }
