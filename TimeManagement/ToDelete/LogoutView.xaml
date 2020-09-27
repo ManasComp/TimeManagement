@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:TimeManagement.Converters;assembly=TimeManagement"
              xmlns:behaviours="clr-namespace:TimeManagement.Behaviours;assembly=TimeManagement">
     <ContentPage.BindingContext>
-        <vm:LogoutViewModel/>
+        <vm:ShellViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid BackgroundColor="Black">

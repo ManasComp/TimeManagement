@@ -24,7 +24,7 @@ namespace TimeManagement.Views
         }
         private async void Logout_OnClicked(object sender, EventArgs e)
         {
-            new LogoutViewModel().LogoutCommand.Execute(null);
+            new ShellViewModel().LogoutCommand.Execute(null);
         }
         private void About_OnClicked(object sender, EventArgs e)
         {

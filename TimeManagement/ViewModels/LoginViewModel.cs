@@ -90,7 +90,9 @@ namespace TimeManagement.ViewModels
             var userService = new UserService();
             Result = await userService.RegisterUser(Username, Password);
             if (Result)
-                await _pageService.DisplayAlert("Success", "User Registered", "OK");
+            {
+                await _pageService.DisplayAlert("Success", "You are registered! Upload data and then click login.", "OK");
+            }
             else
                 await _pageService.DisplayAlert("Error", "User already exists with this credentials", "OK");
         }

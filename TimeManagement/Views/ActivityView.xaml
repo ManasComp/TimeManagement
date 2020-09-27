@@ -40,7 +40,7 @@
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">
             <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/>
-            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}"/>
+            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}" IsEnabled="{Binding HomeIsEnabled}"/>
             <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/>
         </StackLayout>
     </Grid>

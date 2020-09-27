@@ -83,6 +83,14 @@ namespace TimeManagement.Services
             get => _previousActivityName;
         }
 
+        private bool _homeIsEnabled;
+
+        public bool HomeIsEnabled
+        {
+            set => SetValue(ref _homeIsEnabled, value);
+            get => _homeIsEnabled;
+        }
+
         private TimeSpan _actualActivityStart;
         private TimeSpan _actualActivityEnd;
         private TimeSpan _previousActivityStart;
@@ -112,14 +120,7 @@ namespace TimeManagement.Services
             {
                 var mrdka = new Dowloanding();
                 mrdka.Download();
-                Thread.Sleep(5000);
-                _sqLiteService = new SqLiteService();
-                Thread.Sleep(5000);
                 SQlitedata = _sqLiteService.ToListAsync().Result;
-            }
-            if (SQlitedata.Count == 0)
-            {
-                await _pageService.DisplayAlert("Error", "problem with data", "OK");
             }
             else
             {
@@ -148,6 +149,14 @@ namespace TimeManagement.Services
         
         private async void NextAndPrevious(int nextItems)
         {
+            if (nextItems == 0)
+            {
+                HomeIsEnabled = false;
+            }
+            else
+            {
+                HomeIsEnabled = true;
+            }
             int actualIndex = _activities.IndexOf(_actualActivity) + nextItems;
             if (actualIndex > _activities.Count-1)
                 actualIndex = actualIndex-_activities.Count;

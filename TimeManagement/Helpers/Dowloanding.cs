@@ -6,6 +6,8 @@ using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
 using TimeManagement.Models;
 using TimeManagement.Services;
+using TimeManagement.Views;
+using Xamarin.Forms;
 
 namespace TimeManagement.Helpers
 {
@@ -27,13 +29,17 @@ namespace TimeManagement.Helpers
         {
             _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId())).FirstOrDefault();
             await _service.DeleteAllAsync();
-            foreach (DayProgram program in _activities)
+            if (_activities != null)
             {
-                foreach (Activity activity in program)
+                foreach (DayProgram program in _activities)
                 {
-                    activity.Day = _activities.IndexOf(program);
-                    await _service.InsertAsync(activity);
+                    foreach (Activity activity in program)
+                    {
+                        activity.Day = _activities.IndexOf(program);
+                        await _service.InsertAsync(activity);
+                    }
                 }
+                (Application.Current).MainPage = new ShellView();
             }
         }
     }

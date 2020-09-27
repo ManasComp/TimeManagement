@@ -8,27 +8,18 @@ using Xamarin.Forms;
 
 namespace TimeManagement.ViewModels
 {
-    public class LogoutViewModel:BaseViewModel
+    public class ShellViewModel:BaseViewModel
     {
         private readonly PageService _pageService;
         public ICommand LogoutCommand { get; set; }
-        
-        public ICommand GoToActivityViewCommand { get; set; }
 
-        public LogoutViewModel()
+        public ShellViewModel()
         {
-            LogoutCommand = new Command(async() => await LogoutUserAsync());
-            GoToActivityViewCommand = new Command(async() => await GoToActivityView());
             _pageService = new PageService();
+            LogoutCommand = new Command(async() => await LogoutUserAsync());
         }
 
-        private async Task GoToActivityView()
-        {
-            await AnalyticsHelper.TrackEventAsync($"GoToCartAsync");
-            await _pageService.PushModalAsync(new SettingsAndActivityMasterView());
-        }
-
-        private SqLiteService sqLiteService;
+        private SqLiteService _sqLiteService;
         private async Task LogoutUserAsync()
         {
             bool wantLogout = await _pageService.DisplayAlert("Warning", "Do you really want to log out?", "Yes", "No");
@@ -36,8 +27,8 @@ namespace TimeManagement.ViewModels
             {
                 await AnalyticsHelper.TrackEventAsync($"LogoutUser");
                 _pageService.RemoveUsername();
-                sqLiteService = new SqLiteService();
-                await sqLiteService.DeleteAllAsync();
+                _sqLiteService = new SqLiteService();
+                await _sqLiteService.DeleteAllAsync();
                 await _pageService.PushModalAsync(new LoginView());
             }
         }
