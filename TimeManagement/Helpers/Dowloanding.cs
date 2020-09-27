@@ -14,18 +14,18 @@ namespace TimeManagement.Helpers
         private List<DayProgram> _activities;
         private readonly FirebaseService _firebaseService;
         private readonly SqLiteService _service;
+        private readonly PageService _pageService;
 
         public Dowloanding()
         {
             _firebaseService = new FirebaseService();
             _service = new SqLiteService();
+            _pageService = new PageService();
         }
 
         public async void Download()
         {
-            PageService pageService = new PageService();
-            string id = pageService.ReturnId();
-            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(id)).FirstOrDefault();
+            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId())).FirstOrDefault();
             await _service.DeleteAllAsync();
             foreach (DayProgram program in _activities)
             {

@@ -17,8 +17,10 @@ namespace TimeManagement
         private static bool isCartTabbleCreated;
         public App()
         {
+            
             _pageService = new PageService();
             _sqLiteService = new SqLiteService();
+            _sqLiteService.CreateTableAsync();
             InitializeComponent();
             
             Crashes.SetEnabledAsync(true);

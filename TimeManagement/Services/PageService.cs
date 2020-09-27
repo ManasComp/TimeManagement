@@ -11,9 +11,9 @@ namespace FoodOrderApp.Services
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
         }
 
-        public string ReturnUsername(string original = "Guest")
+        public string ReturnUsername(string defaultValue= "Guest")
         {
-            return Preferences.Get("Username", original);
+            return Preferences.Get("Username", defaultValue);
         }
 
         public void SetUsername(string value)
@@ -21,9 +21,9 @@ namespace FoodOrderApp.Services
             Preferences.Set("Username", value);
         }
         
-        public string ReturnId(string original = "mrkda")
+        public string ReturnId(string defaultValue = "GuestId")
         {
-            return Preferences.Get("Id", original);
+            return Preferences.Get("Id", defaultValue);
         }
 
         public void SetId(string value)

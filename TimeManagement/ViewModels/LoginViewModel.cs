@@ -131,7 +131,7 @@ namespace TimeManagement.ViewModels
                    .Where(u => u.Username == Username)
                    .FirstOrDefault(u => u.Password == Password).Id;
                _pageService.SetId(id);
-                await _pageService.PushModalAsync(new SettingsView());
+                await _pageService.PushModalAsync(new ShellView());
             }
             else
             {

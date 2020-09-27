@@ -11,9 +11,12 @@ namespace FoodOrderApp.Services.DatabaseService
     {
         private SQLiteConnection _sqLiteConnection;
 
-        public int Count<T>() where T : new()
+        public SqLiteService()
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
+        }
+        public int Count<T>() where T : new()
+        {
             int count = _sqLiteConnection.Table<T>().Count();
             _sqLiteConnection.Close();
             return count;
@@ -22,15 +25,21 @@ namespace FoodOrderApp.Services.DatabaseService
         public Task CreateTableAsync()
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
-            _sqLiteConnection.DropTable<Activity>();
             _sqLiteConnection.CreateTable<Activity>();
             _sqLiteConnection.Close();
             return Task.CompletedTask;
         }
 
+        public Task DropTableAsync()
+        {
+            _sqLiteConnection.DropTable<Activity>();
+            _sqLiteConnection.Close();
+            new PageService().SetIsCartTableCreated(false);
+            return Task.CompletedTask;
+        }
+
         public Task DeleteAllAsync()
         {
-            _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
             _sqLiteConnection.DeleteAll<Activity>();
             _sqLiteConnection.Commit();
             _sqLiteConnection.Close();
@@ -40,7 +49,7 @@ namespace FoodOrderApp.Services.DatabaseService
         public async Task<List<Activity>> ToListAsync()
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
-            var items = _sqLiteConnection.Table<Activity>().ToList();
+            List<Activity> items = _sqLiteConnection.Table<Activity>().ToList();
             _sqLiteConnection.Close();
             return items;
         }
@@ -55,7 +64,6 @@ namespace FoodOrderApp.Services.DatabaseService
         
         public async Task UpdateAsync(List<DayProgram> item)
         {
-            _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
             _sqLiteConnection.Update(item);
             _sqLiteConnection.Commit();
             _sqLiteConnection.Close();

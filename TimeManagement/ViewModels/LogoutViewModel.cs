@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using FoodOrderApp.Helpers;
 using FoodOrderApp.Services;
+using FoodOrderApp.Services.DatabaseService;
 using TimeManagement.Views;
 using Xamarin.Forms;
 
@@ -27,10 +28,13 @@ namespace TimeManagement.ViewModels
             await _pageService.PushModalAsync(new SettingsAndActivityMasterView());
         }
 
+        private SqLiteService sqLiteService;
         private async Task LogoutUserAsync()
         {
             await AnalyticsHelper.TrackEventAsync($"LogoutUser");
             _pageService.RemoveUsername();
+            sqLiteService = new SqLiteService();
+            await sqLiteService.DeleteAllAsync();
             await _pageService.PushModalAsync(new LoginView());
         }
     }

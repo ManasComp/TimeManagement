@@ -1,19 +1,15 @@
-﻿﻿using System;
- using FoodOrderApp.Model;
+﻿using System;
 using System.Linq;
- using System.Runtime.InteropServices;
- using System.Threading.Tasks;
- using FoodOrderApp.Services;
-using FoodOrderApp.Services.DatabaseService;
- using TimeManagement.Services;
- using Xamarin.Forms;
+using System.Threading.Tasks;
+using FoodOrderApp.Model;
 
 // [assembly:Dependency(typeof(UserService))]//Dependency
-namespace FoodOrderApp.Services
+namespace TimeManagement.Services
 {
     class UserService//it provides Login and Registration to the FirebaseDatabase
     {
         private readonly FirebaseService _firebaseService;
+        private string _userChild = "Users";
         public UserService()
         {
             _firebaseService = new FirebaseService();
@@ -23,7 +19,7 @@ namespace FoodOrderApp.Services
         {
             if (await IsUserExists(uname) == false)
             {
-                await _firebaseService.PostAsync("Users", new User() { Username = uname, Password = passwd, Id=Guid.NewGuid().ToString()});
+                await _firebaseService.PostAsync(_userChild, new User() { Username = uname, Password = passwd, Id=Guid.NewGuid().ToString()});
                 return true;
             }
             else
@@ -34,7 +30,7 @@ namespace FoodOrderApp.Services
         
         private async Task<bool> IsUserExists(string uname)
         {
-            User user=(await _firebaseService.OnceAsync<User>("Users"))
+            User user=(await _firebaseService.OnceAsync<User>(_userChild))
                 .FirstOrDefault(u => u.Username == uname);
            
             return (user != null);
@@ -42,7 +38,7 @@ namespace FoodOrderApp.Services
 
         public async Task<bool> Login(string uname, string passwd)
         {
-            var user = (await _firebaseService.OnceAsync<User>("Users"))
+            var user = (await _firebaseService.OnceAsync<User>(_userChild))
                 .Where(u => u.Username == uname)
                 .FirstOrDefault(u => u.Password == passwd);
             return (user != null);
