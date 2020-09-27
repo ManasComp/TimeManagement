@@ -10,9 +10,11 @@ namespace FoodOrderApp.Services.DatabaseService
     public class SqLiteService
     {
         private SQLiteConnection _sqLiteConnection;
+        private readonly PageService _pageService;
 
         public SqLiteService()
         {
+            _pageService = new PageService();
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();
         }
         public async Task<int> Count<T>() where T : new()
@@ -30,12 +32,11 @@ namespace FoodOrderApp.Services.DatabaseService
             return Task.CompletedTask;
         }
 
-        public Task DropTableAsync()
+        public async Task DropTableAsync()
         {
             _sqLiteConnection.DropTable<Activity>();
             _sqLiteConnection.Close();
-            new PageService().SetIsCartTableCreated(false);
-            return Task.CompletedTask;
+            await _pageService.SetIsCartTableCreated(false);
         }
 
         public Task DeleteAllAsync()

@@ -14,7 +14,7 @@ namespace TimeManagement
         private readonly PageService _pageService;
         private readonly SqLiteService _sqLiteService;
         
-        private static bool isCartTabbleCreated;
+        private static bool _isCartTableCreated;
         public App()
         {
             
@@ -24,7 +24,7 @@ namespace TimeManagement
             
             Crashes.SetEnabledAsync(true);
             Microsoft.AppCenter.Analytics.Analytics.SetEnabledAsync(true);
-            isCartTabbleCreated = _pageService.GetIsCartTableCreated().Result;
+            _isCartTableCreated = _pageService.GetIsCartTableCreated().Result;
             string uname = _pageService.ReturnUsername(string.Empty).Result;
             if (String.IsNullOrEmpty(uname))
             {
@@ -34,7 +34,6 @@ namespace TimeManagement
             {
                 MainPage = new ShellView();
             }
-            //MainPage = new SettingsAndActivityMasterView();
         }
 
         protected override async void OnStart()
@@ -47,10 +46,10 @@ namespace TimeManagement
             {
                 await  _pageService.DisplayAlert("Crash", "Application has crashed", "OK");
             }
-            if (isCartTabbleCreated==false)
+            if (_isCartTableCreated==false)
             {
                 await _sqLiteService.CreateTableAsync();
-                _pageService.SetIsCartTableCreated(true);
+                await _pageService.SetIsCartTableCreated(true);
             }
         }
 

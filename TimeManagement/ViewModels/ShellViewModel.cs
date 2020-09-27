@@ -11,8 +11,8 @@ namespace TimeManagement.ViewModels
 {
     public class ShellViewModel:BaseViewModel
     {
-        private PageService _pageService;
-        private Dowloanding _dowloanding;
+        private readonly PageService _pageService;
+        private readonly Dowloanding _dowloanding;
         private SqLiteService _sqLiteService;
         public ICommand LogoutCommand { get; set; }
         public ICommand Refresh { get; set; }

@@ -1,9 +1,9 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
 
-namespace FoodOrderApp.Helpers
+namespace TimeManagement.Helpers
 {
     public static class CrashesHelper
     {
