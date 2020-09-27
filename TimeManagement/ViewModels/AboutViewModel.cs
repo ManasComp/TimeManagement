@@ -15,7 +15,7 @@ namespace TimeManagement.ViewModels
     {
         public string Username => _pageService.ReturnUsername().Result;
       
-        private PageService _pageService;
+        private readonly PageService _pageService;
         public AboutViewModel()
         {
             _pageService = new PageService();

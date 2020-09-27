@@ -128,11 +128,11 @@ namespace TimeManagement.ViewModels
             Result = await userService.Login(Username, Password);
             if (Result)
             {
-                _pageService.SetUsername(Username);
+                await _pageService.SetUsername(Username);
                 string id = (await new FirebaseService().OnceAsync<User>("Users"))
                    .Where(u => u.Username == Username)
                    .FirstOrDefault(u => u.Password == Password).Id;
-               _pageService.SetId(id);
+                await _pageService.SetId(id);
                 await _pageService.PushModalAsync(new ShellView());
             }
             else

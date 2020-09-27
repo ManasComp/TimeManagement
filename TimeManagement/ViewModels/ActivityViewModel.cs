@@ -87,7 +87,7 @@ namespace TimeManagement.Services
         private int _value;
         private List<Activity> _activities;
         private readonly SqLiteService _sqLiteService;
-        private PageService _pageService;
+        private readonly PageService _pageService;
         private readonly Dowloanding _dowloanding;
 
         public ActivityViewModel()

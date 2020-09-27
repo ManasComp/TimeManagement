@@ -17,9 +17,9 @@ namespace TimeManagement.Views
             InitializeComponent();
         }
 
-        private void Button_OnClicked(object sender, EventArgs e)
+        private async void Button_OnClicked(object sender, EventArgs e)
         {
-            new PageService().PopModalAsync();
+            await new PageService().PopModalAsync();
         }
     }
 }
