@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FoodOrderApp.Helpers;
 using FoodOrderApp.Services;
@@ -35,8 +36,16 @@ namespace TimeManagement.ViewModels
         }
         private async Task LoadNewData()
         {
-            await _dowloanding.Download();
-            await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
+            try
+            {
+                await _dowloanding.Download();
+                await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
+            }
+            catch (Exception ex)
+            {
+                await _pageService.DisplayAlert("Error", ex.Message, "OK");
+                await CrashesHelper.TrackErrorAsync(ex);
+            }
         }
         
         private async Task LogoutUserAsync()

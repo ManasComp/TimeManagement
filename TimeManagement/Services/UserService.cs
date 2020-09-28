@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FoodOrderApp.Model;
+using FoodOrderApp.Services;
 
 // [assembly:Dependency(typeof(UserService))]//Dependency
 namespace TimeManagement.Services
@@ -19,7 +20,7 @@ namespace TimeManagement.Services
         {
             if (await IsUserExists(uname) == false)
             {
-                await _firebaseService.PostAsync(_userChild, new User() { Username = uname, Password = passwd, Id=Guid.NewGuid().ToString()});
+                await _firebaseService.PostAsync(_userChild, new User() { Username = uname, Password = passwd, Id = Guid.NewGuid().ToString() });
                 return true;
             }
             else

@@ -113,23 +113,32 @@ namespace TimeManagement.Services
 
         public async Task ToRun()
         {
-            List<Activity> sQlitedata = _sqLiteService.ToListAsync().Result;
-            if (sQlitedata.Count == 0)
+            try
             {
-                await _dowloanding.Download();
-                sQlitedata = _sqLiteService.ToListAsync().Result;
+                List<Activity> sQlitedata = _sqLiteService.ToListAsync().Result;
+                if (sQlitedata.Count == 0)
+                {
+                    await _dowloanding.Download();
+                    sQlitedata = _sqLiteService.ToListAsync().Result;
+                }
+                else
+                {
+                    _activities = new List<Activity>(sQlitedata);
+
+                    _actualActivity = _activities.Where(activity => activity.Day == (int)DateTime.Today.DayOfWeek)
+                        .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
+                    Next = new Command(async () => await Add());
+                    Before = new Command(async () => await Previous());
+                    Actual = new Command(async () => await NextAndPrevious(0));
+                    await NextAndPrevious(0);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _activities = new List<Activity>(sQlitedata);
-            
-                _actualActivity = _activities.Where(activity => activity.Day == (int) DateTime.Today.DayOfWeek)
-                    .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
-                Next = new Command(async () => await Add());
-                Before = new Command(async () => await Previous());
-                Actual = new Command(async () => await NextAndPrevious(0));
-                await NextAndPrevious(0);
+                await _pageService.DisplayAlert("Error", ex.Message, "OK");
+                await CrashesHelper.TrackErrorAsync(ex);
             }
+
         }
 
         public async Task Add()

@@ -54,12 +54,16 @@ namespace TimeManagement.ViewModels
             get => _disable;
         }
 
+        UserService UserService;
+        FirebaseService firebase;
         public LoginViewModel()
         {
             Disable = false;
             LoginCommand = new Command(async () => await LoginCommandAsync());
             RegisterCommand = new Command(async () => await RegisterCommandAsync());
             _pageService = new PageService();
+            UserService = new UserService();
+            firebase = new FirebaseService();
         }
 
         private async Task RegisterCommandAsync()
@@ -88,8 +92,7 @@ namespace TimeManagement.ViewModels
         private async void Register()
         {
             IsBusy = true;
-            var userService = new UserService();
-            Result = await userService.RegisterUser(Username, Password);
+            Result = await UserService.RegisterUser(Username, Password);
             if (Result)
             {
                 await _pageService.DisplayAlert("Success", "You are registered! Upload data and then click login.", "OK");
@@ -124,12 +127,11 @@ namespace TimeManagement.ViewModels
         private async void Login()
         {
             IsBusy = true;
-            var userService = new UserService();
-            Result = await userService.Login(Username, Password);
+            Result = await UserService.Login(Username, Password);
             if (Result)
             {
                 await _pageService.SetUsername(Username);
-                string id = (await new FirebaseService().OnceAsync<User>("Users"))
+                string id = (await firebase.OnceAsync<User>("Users"))
                    .Where(u => u.Username == Username)
                    .FirstOrDefault(u => u.Password == Password).Id;
                 await _pageService.SetId(id);
