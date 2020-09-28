@@ -1,6 +1,6 @@
-﻿﻿using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
- namespace TimeManagement.Behaviours
+namespace TimeManagement.Behaviours
 {
     public class NotNullBehaviour : Behavior<Entry>//changes the background color of entry block (login page)
     {

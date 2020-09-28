@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SQLite;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using SQLite;
 using TimeManagement;
 using TimeManagement.Models;
 using Xamarin.Forms;

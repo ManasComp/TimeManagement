@@ -1,11 +1,11 @@
-﻿using System;
+﻿using FoodOrderApp.Helpers;
+using FoodOrderApp.Model;
+using FoodOrderApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using FoodOrderApp.Helpers;
-using FoodOrderApp.Model;
-using FoodOrderApp.Services;
 using TimeManagement.Helpers;
 using TimeManagement.Services;
 using TimeManagement.Views;

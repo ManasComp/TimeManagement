@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using FoodOrderApp.Helpers;
+﻿using FoodOrderApp.Helpers;
 using FoodOrderApp.Services;
 using FoodOrderApp.Services.DatabaseService;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using TimeManagement.Helpers;
 using TimeManagement.Views;
 using Xamarin.Forms;

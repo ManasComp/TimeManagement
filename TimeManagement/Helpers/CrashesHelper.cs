@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
 
 namespace TimeManagement.Helpers
 {

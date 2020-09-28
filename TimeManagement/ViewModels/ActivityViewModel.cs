@@ -1,16 +1,13 @@
-﻿using System;
+﻿using FoodOrderApp.Services;
+using FoodOrderApp.Services.DatabaseService;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using FoodOrderApp.Services;
-using FoodOrderApp.Services.DatabaseService;
 using TimeManagement.Helpers;
 using TimeManagement.Models;
 using TimeManagement.ViewModels;
-using TimeManagement.Views;
 using Xamarin.Forms;
 
 namespace TimeManagement.Services
