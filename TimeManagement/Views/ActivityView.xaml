@@ -7,9 +7,9 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="Black" Title="Time Table">
     <ContentPage.BindingContext>
-        <vm:ActivityViewModel/>
+        <vm:ActivityViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
-    <Grid Margin="15">
+    <Grid Margin="10">
         <Grid.RowDefinitions >
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,30 +17,24 @@
         </Grid.RowDefinitions>
         <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline"  HorizontalOptions="Center"/>
         
-           <StackLayout VerticalOptions="Center" Grid.Row="1" Spacing="20">
-            <Frame BackgroundColor="#333333" HasShadow="False">
-                <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand">
-                    <Label TextColor="#6b6b6b" BackgroundColor="Transparent" Text="{Binding PreviousActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="#6b6b6b" BackgroundColor="Transparent" Text="{Binding PreviousActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
-                </StackLayout>
-            </Frame>
-            <Frame BackgroundColor="#808080" BorderColor="White" HasShadow="False">
-                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label TextColor="#f8f8f8" BackgroundColor="Transparent" Text="{Binding ActualActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="#f8f8f8" BackgroundColor="Transparent" x:Name="Label" Text="{Binding ActualActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
-                </StackLayout>
-            </Frame>
-            <Frame BackgroundColor="#333333" HasShadow="False">
-                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label TextColor="#6b6b6b" BackgroundColor="Transparent" Text="{Binding NextActivityTime}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
-                    <Label TextColor="#6b6b6b" BackgroundColor="Transparent" Text="{Binding NextActivityName}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
-                </StackLayout>
-            </Frame>
-        </StackLayout>
+           <CollectionView x:Name="CollectionView1" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}" SelectedItem="{Binding _actualShowedActivity}" BackgroundColor="Transparent">
+               <CollectionView.ItemTemplate>
+                   <DataTemplate>
+                       <StackLayout Padding="0,5,0,5">
+                           <Frame BackgroundColor="{Binding BackgroundSquareColor}" HasShadow="False" CornerRadius="20">
+                               <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+                                   <Label TextColor="{Binding BackgroundTextColor}" BackgroundColor="Transparent" Text="{Binding Duration}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="30"/>
+                                   <Label TextColor="{Binding BackgroundTextColor}" BackgroundColor="Transparent" Text="{Binding Name}" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="40"/>
+                               </StackLayout>
+                           </Frame>
+                       </StackLayout>
+                   </DataTemplate>
+               </CollectionView.ItemTemplate>
+           </CollectionView>
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">
             <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/>
-            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}" IsEnabled="{Binding HomeIsEnabled}"/>
+            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Clicked="Button_OnClicked"/>
             <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/>
         </StackLayout>
     </Grid>

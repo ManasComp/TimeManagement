@@ -1,4 +1,5 @@
-﻿using FoodOrderApp.Helpers;
+﻿using System;
+using FoodOrderApp.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +16,14 @@ namespace TimeManagement.Views
         {
             base.OnAppearing();
             await AnalyticsHelper.TrackEventAsync("ActivityView opened");
+            if (Model.Collection!=null)
+                CollectionView1.ScrollTo(Model.actualId);
+        }
+
+
+        private void Button_OnClicked(object sender, EventArgs e)
+        {
+            CollectionView1.ScrollTo(Model.actualId);
         }
     }
 }

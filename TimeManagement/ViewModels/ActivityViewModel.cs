@@ -2,6 +2,8 @@
 using FoodOrderApp.Services.DatabaseService;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,6 +20,8 @@ namespace TimeManagement.Services
         public ICommand Before { get; set; }
         public ICommand Actual { get; set; }
         
+        public ObservableCollection<ActivityVM> _activities { get; set; }
+        
         private string _day;
         public string Day
         {
@@ -25,48 +29,15 @@ namespace TimeManagement.Services
             get => _day;
         }
 
-        private string _actualActivityTime;
-        public string ActualActivityTime
+        private ObservableCollection<ActivityVM> _collection;
+        public ObservableCollection<ActivityVM> Collection
         {
-            set => SetValue(ref _actualActivityTime, value);
-            get => _actualActivityTime;
+            get => _collection;
+            set => SetValue(ref _collection, value);
         }
+        ObservableCollection<ObservableCollection<ActivityVM>> kravina =
+            new ObservableCollection<ObservableCollection<ActivityVM>>();
         
-        private string _nextActivityTime;
-        public string NextActivityTime
-        {
-            set => SetValue(ref _nextActivityTime, value);
-            get => _nextActivityTime;
-        }
-        
-        private string _previousActivityTime;
-        public string PreviousActivityTime
-        {
-            set => SetValue(ref _previousActivityTime, value);
-            get => _previousActivityTime;
-        }
-
-        private string _actualActivityName;
-        public string ActualActivityName
-        {
-            set => SetValue(ref _actualActivityName, value);
-            get => _actualActivityName;
-        }
-        
-        private string _nextActivityName;
-        public string NextActivityName
-        {
-            set => SetValue(ref _nextActivityName, value);
-            get => _nextActivityName;
-        }
-        
-        private string _previousActivityName;
-        public string PreviousActivityName
-        {
-            set => SetValue(ref _previousActivityName, value);
-            get => _previousActivityName;
-        }
-
         private bool _homeIsEnabled;
 
         public bool HomeIsEnabled
@@ -75,20 +46,29 @@ namespace TimeManagement.Services
             get => _homeIsEnabled;
         }
 
-        private Activity _actualActivity;
-        
-        private Activity _actualShowedActivity;
-        private Activity _nextShowedActivity;
-        private Activity _previousShowedActivity;
+        public int actualId
+        {
+            get => Collection.IndexOf(Collection
+                .Where(item => item.Day == _actualShowedActivity.Day)
+                .Where(item => item.Duration == _actualShowedActivity.Duration)
+                .Where(item => item.End == _actualShowedActivity.End)
+                .Where(item => item.Id == _actualShowedActivity.Id)
+                .Where(item => item.Name == _actualShowedActivity.Name)
+                .Where(item => item.Start == _actualShowedActivity.Start)
+                .Where(item => item.UserId == _actualShowedActivity.UserId)
+                .FirstOrDefault());
+        }
+        public ActivityVM _actualShowedActivity { get; set; }
 
-        private int _value;
-        private List<Activity> _activities;
+        private int _value = (int)DateTime.Today.DayOfWeek;
+
         private readonly SqLiteService _sqLiteService;
         private readonly PageService _pageService;
         private readonly Dowloanding _dowloanding;
 
         public ActivityViewModel()
         {
+            Collection = new ObservableCollection<ActivityVM>();
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _dowloanding = new Dowloanding();
@@ -101,10 +81,7 @@ namespace TimeManagement.Services
         }
 
         private async void SetValues()
-        {
-            ActualActivityTime = ToStringFormat(_actualShowedActivity.Start, _actualShowedActivity.End);
-            NextActivityTime=ToStringFormat(_nextShowedActivity.Start, _nextShowedActivity.End);
-            PreviousActivityTime = ToStringFormat(_previousShowedActivity.Start, _previousShowedActivity.End);
+        { 
             Day=Enum.GetName(typeof(DayOfWeek),_actualShowedActivity.Day).ToString().ToUpper();
         }
 
@@ -120,14 +97,37 @@ namespace TimeManagement.Services
                 }
                 else
                 {
-                    _activities = new List<Activity>(sQlitedata);
+                    _activities = new ObservableCollection<ActivityVM>();
+    
+                    int day = 0;
+                    foreach (var activity in sQlitedata)
+                    {
+                        if (activity.Name.Trim().ToLower() == "sleeping" & sQlitedata.IndexOf(activity)!=sQlitedata.Count-1)
+                        {
+                            kravina.Add(new ObservableCollection<ActivityVM>());
+                            day++;
+                            kravina[day - 1].Add(new ActivityVM(activity));
+                        }
 
-                    _actualActivity = _activities.Where(activity => activity.Day == (int)DateTime.Today.DayOfWeek)
+                        if (kravina.Count == 0)
+                        {
+                            kravina.Add(new ObservableCollection<ActivityVM>());
+                            kravina[0].Add(new ActivityVM(sQlitedata[sQlitedata.Count-1]));
+                        }
+
+                        _activities.Add(new ActivityVM(activity));
+                        kravina[day].Add(new ActivityVM(activity));
+                    }
+
+                    Collection = kravina[(int)DateTime.Today.DayOfWeek];
+                    _actualShowedActivity = _activities.Where(activity => activity.Day == (int)DateTime.Today.DayOfWeek)
                         .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
                     Next = new Command(async () => await Add());
                     Before = new Command(async () => await Previous());
                     Actual = new Command(async () => await NextAndPrevious(0));
                     await NextAndPrevious(0);
+                    Collection[actualId].BackgroundSquareColor = Color.FromHex("#808080");
+                    Collection[actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
                 }
             }
             catch (Exception ex)
@@ -141,13 +141,13 @@ namespace TimeManagement.Services
         public async Task Add()
         {
             _value++;
-            await NextAndPrevious(_value);
+            Collection=kravina[_value];
         }
         
         public async Task Previous()
         {
             _value--;
-            await NextAndPrevious(_value);
+            Collection=kravina[_value];
         }
 
         private int Activities(int actualIndex)
@@ -169,19 +169,6 @@ namespace TimeManagement.Services
             {
                 HomeIsEnabled = true;
             }
-            int actualIndex = _activities.IndexOf(_actualActivity) + nextItems;
-            _actualShowedActivity = _activities[Activities(actualIndex)];
-            
-            int previousIndex = _activities.IndexOf(_actualShowedActivity)-1;
-            _previousShowedActivity = _activities[Activities(previousIndex)];
-            
-            int nextIndex = _activities.IndexOf(_actualShowedActivity)+1;
-            _nextShowedActivity = _activities[Activities(nextIndex)];
-            
-            ActualActivityName = _actualShowedActivity.Name;
-            PreviousActivityName = _previousShowedActivity.Name;
-            NextActivityName = _nextShowedActivity.Name;
-            
             SetValues();
         }
     }
