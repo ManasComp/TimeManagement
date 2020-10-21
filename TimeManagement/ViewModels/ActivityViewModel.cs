@@ -94,8 +94,12 @@ namespace TimeManagement.ViewModels
             Next = new Command(async () => await changeDay(true));
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());
-            Collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
-            Collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
+            if (_actualId > 0)
+            {
+                Collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
+                Collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
+            }
+
             Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek).ToString().ToUpper();
         }
         public async Task ToRun()
