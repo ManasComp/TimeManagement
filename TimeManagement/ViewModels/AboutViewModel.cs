@@ -1,4 +1,4 @@
-﻿using FoodOrderApp.Services;
+﻿using TimeManagement.Services;
 
 namespace TimeManagement.ViewModels
 {

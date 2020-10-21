@@ -4,10 +4,11 @@
              x:Class="TimeManagement.Views.ActivityView"
              xmlns:vm="clr-namespace:TimeManagement.Services;assembly=TimeManagement"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:viewModels="clr-namespace:TimeManagement.ViewModels;assembly=TimeManagement"
              ios:Page.UseSafeArea="True"
              BackgroundColor="Black" Title="Time Table">
     <ContentPage.BindingContext>
-        <vm:ActivityViewModel x:Name="Model"/>
+        <viewModels:ActivityViewModel x:Name="Model"/>
     </ContentPage.BindingContext>
     <Grid Margin="10">
         <Grid.RowDefinitions >
@@ -17,7 +18,7 @@
         </Grid.RowDefinitions>
         <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline"  HorizontalOptions="Center"/>
         
-           <CollectionView x:Name="CollectionView1" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}" SelectedItem="{Binding _actualShowedActivity}" BackgroundColor="Transparent">
+           <CollectionView x:Name="CollectionView1" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}"  BackgroundColor="Transparent">
                <CollectionView.ItemTemplate>
                    <DataTemplate>
                        <StackLayout Padding="0,5,0,5">
@@ -34,7 +35,7 @@
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">
             <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/>
-            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Clicked="Button_OnClicked"/>
+            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}"/>
             <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/>
         </StackLayout>
     </Grid>

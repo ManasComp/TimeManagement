@@ -1,5 +1,5 @@
-﻿using FoodOrderApp.Services;
-using System;
+﻿using System;
+using TimeManagement.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -1,8 +1,7 @@
-﻿using FoodOrderApp.Services;
-using FoodOrderApp.Services.DatabaseService;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using System;
+using TimeManagement.Services;
 using TimeManagement.Views;
 using Xamarin.Forms;
 

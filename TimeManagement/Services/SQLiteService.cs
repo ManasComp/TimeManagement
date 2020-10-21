@@ -1,11 +1,10 @@
-﻿using SQLite;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TimeManagement;
+using SQLite;
 using TimeManagement.Models;
 using Xamarin.Forms;
 
-namespace FoodOrderApp.Services.DatabaseService
+namespace TimeManagement.Services
 {
     public class SqLiteService
     {

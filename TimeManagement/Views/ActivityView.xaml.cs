@@ -1,12 +1,12 @@
 ﻿using System;
-using FoodOrderApp.Helpers;
+using TimeManagement.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TimeManagement.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ActivityView : ContentPage
+    public partial class ActivityView : ContentPage, IHasCollectionView
     {
         public ActivityView()
         {
@@ -16,14 +16,16 @@ namespace TimeManagement.Views
         {
             base.OnAppearing();
             await AnalyticsHelper.TrackEventAsync("ActivityView opened");
-            if (Model.Collection!=null)
-                CollectionView1.ScrollTo(Model.actualId);
         }
 
-
-        private void Button_OnClicked(object sender, EventArgs e)
+        public CollectionView CollectionView => CollectionView1;
+        protected override void OnBindingContextChanged()
         {
-            CollectionView1.ScrollTo(Model.actualId);
+            if (this.BindingContext is IHasCollectionViewModel hasCollectionViewModel)
+            {
+                hasCollectionViewModel.View = this;
+            }
+            base.OnBindingContextChanged();
         }
     }
 }

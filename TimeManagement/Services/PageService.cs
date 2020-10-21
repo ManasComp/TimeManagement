@@ -3,7 +3,7 @@ using TimeManagement.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace FoodOrderApp.Services
+namespace TimeManagement.Services
 {
     public class PageService
     {

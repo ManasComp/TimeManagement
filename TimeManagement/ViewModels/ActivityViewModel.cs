@@ -1,28 +1,25 @@
-﻿using FoodOrderApp.Services;
-using FoodOrderApp.Services.DatabaseService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeManagement.Helpers;
 using TimeManagement.Models;
-using TimeManagement.ViewModels;
+using TimeManagement.Services;
 using Xamarin.Forms;
 
-namespace TimeManagement.Services
+namespace TimeManagement.ViewModels
 {
-    public class ActivityViewModel : BaseViewModel
+    public class ActivityViewModel : BaseViewModel, IHasCollectionViewModel
     {
+        public IHasCollectionView View { get; set; }
         public ICommand Next { get; set; }
         public ICommand Before { get; set; }
         public ICommand Actual { get; set; }
-        
-        public ObservableCollection<ActivityVM> _activities { get; set; }
-        
+
         private string _day;
+
         public string Day
         {
             set => SetValue(ref _day, value);
@@ -30,41 +27,22 @@ namespace TimeManagement.Services
         }
 
         private ObservableCollection<ActivityVM> _collection;
+
         public ObservableCollection<ActivityVM> Collection
         {
             get => _collection;
             set => SetValue(ref _collection, value);
         }
-        ObservableCollection<ObservableCollection<ActivityVM>> kravina =
-            new ObservableCollection<ObservableCollection<ActivityVM>>();
-        
-        private bool _homeIsEnabled;
 
-        public bool HomeIsEnabled
-        {
-            set => SetValue(ref _homeIsEnabled, value);
-            get => _homeIsEnabled;
-        }
-
-        public int actualId
-        {
-            get => Collection.IndexOf(Collection
-                .Where(item => item.Day == _actualShowedActivity.Day)
-                .Where(item => item.Duration == _actualShowedActivity.Duration)
-                .Where(item => item.End == _actualShowedActivity.End)
-                .Where(item => item.Id == _actualShowedActivity.Id)
-                .Where(item => item.Name == _actualShowedActivity.Name)
-                .Where(item => item.Start == _actualShowedActivity.Start)
-                .Where(item => item.UserId == _actualShowedActivity.UserId)
-                .FirstOrDefault());
-        }
-        public ActivityVM _actualShowedActivity { get; set; }
-
-        private int _value = (int)DateTime.Today.DayOfWeek;
-
+        private int _actualId => Collection.IndexOf(_actualShowedActivity);
+        private List<List<ActivityVM>> _programByDays = new List<List<ActivityVM>>();
+        private ActivityVM _actualShowedActivity;
+        private int _value;
+        private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
         private readonly SqLiteService _sqLiteService;
         private readonly PageService _pageService;
         private readonly Dowloanding _dowloanding;
+        private List<Activity> _sQlitedata;
 
         public ActivityViewModel()
         {
@@ -72,104 +50,112 @@ namespace TimeManagement.Services
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _dowloanding = new Dowloanding();
+            _value = _dayOfWeek;
             ToRun();
         }
 
-        private string ToStringFormat(TimeSpan start, TimeSpan end)
+        private async void dowlondData()
         {
-            return string.Format($"{start:hh\\:mm}" + " - " + $"{end:hh\\:mm}");
+            _sQlitedata = _sqLiteService.ToListAsync().Result;
+            if (_sQlitedata.Count == 0)
+            {
+                await _dowloanding.Download();
+                _sQlitedata = _sqLiteService.ToListAsync().Result;
+            }
         }
 
-        private async void SetValues()
-        { 
-            Day=Enum.GetName(typeof(DayOfWeek),_actualShowedActivity.Day).ToString().ToUpper();
+        private void convertingToVm()
+        {
+            int day = 0;
+            foreach (var activity in _sQlitedata)
+            {
+                if ((activity.Name.Trim().ToLower() == "sleeping") &
+                    (_sQlitedata.IndexOf(activity) != _sQlitedata.Count - 1))
+                {
+                    _programByDays.Add(new List<ActivityVM>());
+                    day++;
+                    _programByDays[day - 1].Add(new ActivityVM(activity));
+                }
+
+                if (_programByDays.Count == 0)
+                {
+                    _programByDays.Add(new List<ActivityVM>());
+                    _programByDays[0].Add(new ActivityVM(_sQlitedata[_sQlitedata.Count - 1]));
+                }
+
+                _programByDays[day].Add(new ActivityVM(activity));
+            }
+            Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
         }
 
+        private void uIsettings()
+        {
+            Next = new Command(async () => await changeDay(true));
+            Before = new Command(async () => await changeDay(false));
+            Actual = new Command(async () => await goHome());
+            Collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
+            Collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
+            Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek).ToString().ToUpper();
+        }
         public async Task ToRun()
         {
             try
             {
-                List<Activity> sQlitedata = _sqLiteService.ToListAsync().Result;
-                if (sQlitedata.Count == 0)
-                {
-                    await _dowloanding.Download();
-                    sQlitedata = _sqLiteService.ToListAsync().Result;
-                }
-                else
-                {
-                    _activities = new ObservableCollection<ActivityVM>();
-    
-                    int day = 0;
-                    foreach (var activity in sQlitedata)
-                    {
-                        if (activity.Name.Trim().ToLower() == "sleeping" & sQlitedata.IndexOf(activity)!=sQlitedata.Count-1)
-                        {
-                            kravina.Add(new ObservableCollection<ActivityVM>());
-                            day++;
-                            kravina[day - 1].Add(new ActivityVM(activity));
-                        }
-
-                        if (kravina.Count == 0)
-                        {
-                            kravina.Add(new ObservableCollection<ActivityVM>());
-                            kravina[0].Add(new ActivityVM(sQlitedata[sQlitedata.Count-1]));
-                        }
-
-                        _activities.Add(new ActivityVM(activity));
-                        kravina[day].Add(new ActivityVM(activity));
-                    }
-
-                    Collection = kravina[(int)DateTime.Today.DayOfWeek];
-                    _actualShowedActivity = _activities.Where(activity => activity.Day == (int)DateTime.Today.DayOfWeek)
-                        .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
-                    Next = new Command(async () => await Add());
-                    Before = new Command(async () => await Previous());
-                    Actual = new Command(async () => await NextAndPrevious(0));
-                    await NextAndPrevious(0);
-                    Collection[actualId].BackgroundSquareColor = Color.FromHex("#808080");
-                    Collection[actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
-                }
+                dowlondData();
+                convertingToVm();
+                _actualShowedActivity = Collection
+                    .Where(activity => activity.Day == _dayOfWeek)
+                    .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
+                uIsettings();
+               await goHome();
             }
             catch (Exception ex)
             {
                 await _pageService.DisplayAlert("Error", ex.Message, "OK");
                 await CrashesHelper.TrackErrorAsync(ex);
             }
-
         }
 
-        public async Task Add()
+        private async Task changeDay(bool Next)
         {
-            _value++;
-            Collection=kravina[_value];
-        }
-        
-        public async Task Previous()
-        {
-            _value--;
-            Collection=kravina[_value];
-        }
-
-        private int Activities(int actualIndex)
-        {
-            if (actualIndex > _activities.Count-1)
-                actualIndex = actualIndex-_activities.Count;
-            if (actualIndex < 0)
-                actualIndex = actualIndex + _activities.Count;
-            return actualIndex;
-        }
-
-        private async Task NextAndPrevious(int nextItems)
-        {
-            if (nextItems == 0)
+            if (Next == true)
             {
-                HomeIsEnabled = false;
+                if (_value > 5)
+                    _value = 0;
+                else
+                    _value++;
             }
+
             else
             {
-                HomeIsEnabled = true;
+                if (_value < 1)
+                    _value = 6;
+                else
+                    _value--;
             }
-            SetValues();
+            changeData();
+        }
+
+        private void changeData()
+        {
+            Day = Enum.GetName(typeof(DayOfWeek), _value).ToString().ToUpper();
+            Collection = new ObservableCollection<ActivityVM>(_programByDays[_value]);
+        }
+
+        private async Task goHome()
+        {
+            if (_value != _dayOfWeek)
+            {
+                _value=_dayOfWeek;
+                changeData();
+            }
+            scrollToItem(_actualId);
+        }
+        
+        private void scrollToItem(int index)
+        {
+            if (index>0)
+                View.CollectionView.ScrollTo(index);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace FoodOrderApp.Model
+namespace TimeManagement.Models
 {
     public class User
     {

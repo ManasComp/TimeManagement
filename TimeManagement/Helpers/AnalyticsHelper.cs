@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FoodOrderApp.Helpers
+namespace TimeManagement.Helpers
 {
     public static class AnalyticsHelper
     {

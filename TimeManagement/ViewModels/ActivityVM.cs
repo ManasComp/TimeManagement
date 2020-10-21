@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace TimeManagement.ViewModels
 {
-    public class ActivityVM
+    public class ActivityVM:BaseViewModel
     {
         public ActivityVM(Activity activity)
         {
@@ -15,19 +15,31 @@ namespace TimeManagement.ViewModels
             Day = activity.Day;
             Id = activity.Id;
             UserId = activity.UserId;
+            BackgroundTextColor = Color.FromHex("#676767");
+            BackgroundSquareColor = Color.FromHex("#333333");
         }
         
         public TimeSpan Start { get; set; }
         public TimeSpan End { get; set; }
         public string Name { get; set; }
-        
         public int Day { get; set; }
         public int Id { get; set; }
         public string UserId { get; set; }
 
-        public Color BackgroundTextColor { get; set; } = Color.FromHex("#676767");
-        public Color BackgroundSquareColor { get; set; } = Color.FromHex("#333333");
-        
+        private Color _backgroundTextColor;
+        public Color BackgroundTextColor
+        {
+            get => _backgroundTextColor;
+            set => SetValue(ref _backgroundTextColor, value);
+        }
+
+        private Color _backgroundSquareColor;
+        public Color BackgroundSquareColor
+        {
+            get => _backgroundSquareColor;
+            set => SetValue(ref _backgroundSquareColor, value);
+        }
+
         public string Duration
         {
             get => string.Format($"{Start:hh\\:mm}" + " - " + $"{End:hh\\:mm}");
