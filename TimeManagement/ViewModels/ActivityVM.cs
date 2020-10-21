@@ -19,6 +19,18 @@ namespace TimeManagement.ViewModels
             BackgroundSquareColor = Color.FromHex("#333333");
         }
         
+        public ActivityVM(Activity activity, TimeSpan start, TimeSpan end, int day)
+        {
+            Start = start;
+            End = end;
+            Name = activity.Name;
+            Day = activity.Day;
+            Id = activity.Id;
+            UserId = activity.UserId;
+            BackgroundTextColor = Color.FromHex("#676767");
+            BackgroundSquareColor = Color.FromHex("#333333");
+        }
+        
         public TimeSpan Start { get; set; }
         public TimeSpan End { get; set; }
         public string Name { get; set; }

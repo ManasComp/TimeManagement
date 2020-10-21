@@ -70,21 +70,24 @@ namespace TimeManagement.ViewModels
             int day = 0;
             foreach (var activity in _sQlitedata)
             {
-                if ((activity.Name.Trim().ToLower() == "sleeping") &
+                if (_programByDays.Count == 0)
+                {
+                    _programByDays.Add(new List<ActivityVM>());
+                    _programByDays[day].Add(new ActivityVM(_sQlitedata[_sQlitedata.Count - 1], TimeSpan.Zero, activity.End, day));
+                    _programByDays[day].Add(new ActivityVM(activity));
+                }
+                else if ((activity.Name.Trim().ToLower() == "sleeping") &
                     (_sQlitedata.IndexOf(activity) != _sQlitedata.Count - 1))
                 {
                     _programByDays.Add(new List<ActivityVM>());
                     day++;
-                    _programByDays[day - 1].Add(new ActivityVM(activity));
+                    _programByDays[day - 1].Add(new ActivityVM(activity,  activity.Start, TimeSpan.FromHours(24), day-1));
+                    _programByDays[day].Add(new ActivityVM(activity, TimeSpan.Zero, activity.End, day));
                 }
-
-                if (_programByDays.Count == 0)
+                else
                 {
-                    _programByDays.Add(new List<ActivityVM>());
-                    _programByDays[0].Add(new ActivityVM(_sQlitedata[_sQlitedata.Count - 1]));
+                    _programByDays[day].Add(new ActivityVM(activity));
                 }
-
-                _programByDays[day].Add(new ActivityVM(activity));
             }
             Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
         }
@@ -94,7 +97,7 @@ namespace TimeManagement.ViewModels
             Next = new Command(async () => await changeDay(true));
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());
-            if (_actualId > 0)
+            if (_actualId >= 0)
             {
                 Collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
                 Collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
@@ -109,7 +112,6 @@ namespace TimeManagement.ViewModels
                 dowlondData();
                 convertingToVm();
                 _actualShowedActivity = Collection
-                    .Where(activity => activity.Day == _dayOfWeek)
                     .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
                 uIsettings();
             }
@@ -165,7 +167,7 @@ namespace TimeManagement.ViewModels
         
         private void scrollToItem(int index)
         {
-            if (index>0)
+            if (index>=0)
                 View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Start,true);//I would like to scroll it to center
             //View.CollectionView.ScrollTo(index);
         }
