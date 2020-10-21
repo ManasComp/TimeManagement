@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:TimeManagement.Services;assembly=TimeManagement"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              xmlns:viewModels="clr-namespace:TimeManagement.ViewModels;assembly=TimeManagement"
+             xmlns:local="clr-namespace:TimeManagement.MarkupExtensions;assembly=TimeManagement"
              ios:Page.UseSafeArea="True"
              BackgroundColor="Black" Title="Time Table">
     <ContentPage.BindingContext>
@@ -34,9 +35,12 @@
            </CollectionView>
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">
-            <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/>
-            <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}"/>
-            <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/>
+            <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.left.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="Start" Command="{Binding Before}"/>
+            <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.home.png}" WidthRequest="60" HeightRequest="60" HorizontalOptions="CenterAndExpand" Command="{Binding Actual}"/>
+            <ImageButton BackgroundColor="Transparent" Source="{local:EmbeddedImage TimeManagement.Images.right.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="End" Command="{Binding Next}"/>
+            <!-- <Button Text="Previous" HorizontalOptions="Start" CornerRadius="20" Command="{Binding Before}"/> -->
+            <!-- <Button Text="Home" HorizontalOptions="CenterAndExpand" CornerRadius="20" Command="{Binding Actual}"/> -->
+            <!-- <Button Text="Upcoming" HorizontalOptions="End" CornerRadius="20" Command="{Binding Next}"/> -->
         </StackLayout>
     </Grid>
 </ContentPage>

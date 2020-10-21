@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using TimeManagement.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -78,6 +79,11 @@ namespace TimeManagement.Services
         public async Task RestartApp()
         {
             (Application.Current).MainPage = new ShellView();
+        }
+
+        public async Task Vibrate(int duration = 250)
+        {
+            Vibration.Vibrate(duration);
         }
     }
 }

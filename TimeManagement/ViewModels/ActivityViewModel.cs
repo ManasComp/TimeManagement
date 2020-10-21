@@ -108,7 +108,6 @@ namespace TimeManagement.ViewModels
                     .Where(activity => activity.Day == _dayOfWeek)
                     .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
                 uIsettings();
-               await goHome();
             }
             catch (Exception ex)
             {
@@ -134,6 +133,7 @@ namespace TimeManagement.ViewModels
                 else
                     _value--;
             }
+            _pageService.Vibrate();
             changeData();
         }
 
@@ -151,12 +151,19 @@ namespace TimeManagement.ViewModels
                 changeData();
             }
             scrollToItem(_actualId);
+            await _pageService.Vibrate();
+        }
+
+        public void FirstScroll()
+        {
+            scrollToItem(_actualId);
         }
         
         private void scrollToItem(int index)
         {
             if (index>0)
-                View.CollectionView.ScrollTo(index);
+                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Start,true);//I would like to scroll it to center
+            //View.CollectionView.ScrollTo(index);
         }
     }
 }

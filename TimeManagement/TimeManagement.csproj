@@ -26,4 +26,13 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\left.png" />
+    <EmbeddedResource Include="Images\left.png" />
+    <None Remove="Images\right.png" />
+    <EmbeddedResource Include="Images\right.png" />
+    <None Remove="Images\home.png" />
+    <EmbeddedResource Include="Images\home.png" />
+  </ItemGroup>
 </Project>
