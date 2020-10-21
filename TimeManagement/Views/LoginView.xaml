@@ -91,7 +91,7 @@
                             Command="{Binding RegisterCommand}">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button"
-                                         Binding="{Binding Source={x:Reference CheckBoxAgrree}, Path=IsChecked}" Value="False">
+                                         Binding="{Binding Source={x:Reference CheckBoxAgree}, Path=IsChecked}" Value="False">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Button.Triggers>
