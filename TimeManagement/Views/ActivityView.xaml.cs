@@ -1,5 +1,6 @@
 ﻿using System;
 using TimeManagement.Helpers;
+using TimeManagement.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +19,7 @@ namespace TimeManagement.Views
             await AnalyticsHelper.TrackEventAsync("ActivityView opened");
         }
 
-        public CollectionView CollectionView => CollectionView1;
+        public CollectionView CollectionView => Activities_CollectionView;
         protected override void OnBindingContextChanged()
         {
             if (this.BindingContext is IHasCollectionViewModel hasCollectionViewModel)

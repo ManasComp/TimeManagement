@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace TimeManagement
+namespace TimeManagement.Interfaces
 {
     public interface IHasCollectionView
     {

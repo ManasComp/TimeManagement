@@ -1,4 +1,4 @@
-﻿namespace TimeManagement
+﻿namespace TimeManagement.Interfaces
 {
     public interface IHasCollectionViewModel
     {

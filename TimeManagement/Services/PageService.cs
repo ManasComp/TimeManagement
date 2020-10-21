@@ -7,6 +7,11 @@ namespace TimeManagement.Services
 {
     public class PageService
     {
+        private const string username = "Username";
+        private const string id = "Id";
+        private const string guest = "Guest";
+        private const string guestId = "GuestId";
+        private const string isCartItemTableCreated = "isCartItemTableCreated";
         public async Task DisplayAlert(string title, string message, string cancel)
         {
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
@@ -17,31 +22,31 @@ namespace TimeManagement.Services
             return await Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
         }
 
-        public async Task<string> ReturnUsername(string defaultValue= "Guest")
+        public async Task<string> ReturnUsername(string defaultValue= guest)
         {
-            return Preferences.Get("Username", defaultValue);
+            return Preferences.Get(username, defaultValue);
         }
 
         public Task SetUsername(string value)
         {
-            Preferences.Set("Username", value);
+            Preferences.Set(username, value);
             return Task.CompletedTask;
         }
         
-        public async Task<string> ReturnId(string defaultValue = "GuestId")
+        public async Task<string> ReturnId(string defaultValue = guestId)
         {
-            return Preferences.Get("Id", defaultValue);
+            return Preferences.Get(id, defaultValue);
         }
 
         public Task SetId(string value)
         {
-            Preferences.Set("Id", value);
+            Preferences.Set(id, value);
             return Task.CompletedTask;
         }
 
         public Task RemoveUsername()
         {
-            Preferences.Remove("Username");
+            Preferences.Remove(username);
             return Task.CompletedTask;
         }
 
@@ -62,12 +67,12 @@ namespace TimeManagement.Services
 
         public async Task<bool> GetIsCartTableCreated()
         {
-           return Preferences.Get("isCartItemTableCreated", false);
+           return Preferences.Get(isCartItemTableCreated, false);
         }
         
         public async Task SetIsCartTableCreated(bool value)
         {
-            Preferences.Set("isCartItemTableCreated", value);
+            Preferences.Set(isCartItemTableCreated, value);
         }
         
         public async Task RestartApp()

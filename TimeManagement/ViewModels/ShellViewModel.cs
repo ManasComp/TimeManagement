@@ -11,7 +11,7 @@ namespace TimeManagement.ViewModels
     public class ShellViewModel:BaseViewModel
     {
         private readonly PageService _pageService;
-        private readonly Dowloanding _dowloanding;
+        private readonly Downloading _downloading;
         private SqLiteService _sqLiteService;
         public ICommand LogoutCommand { get; set; }
         public ICommand Refresh { get; set; }
@@ -26,17 +26,17 @@ namespace TimeManagement.ViewModels
         public ShellViewModel()
         {
             _pageService = new PageService();
-            _dowloanding = new Dowloanding();
+            _downloading = new Downloading();
             _sqLiteService=new SqLiteService();
-            Refresh = new Command(async () => await LoadNewData());
-            LogoutCommand = new Command(async() => await LogoutUserAsync());
+            Refresh = new Command(async () => await loadNewData());
+            LogoutCommand = new Command(async() => await logoutUserAsync());
             About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
         }
-        private async Task LoadNewData()
+        private async Task loadNewData()
         {
             try
             {
-                await _dowloanding.Download();
+                await _downloading.Download();
                 await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace TimeManagement.ViewModels
             }
         }
         
-        private async Task LogoutUserAsync()
+        private async Task logoutUserAsync()
         {
             bool wantLogout = await _pageService.DisplayAlert("Warning", "Do you really want to log out?", "Yes", "No");
             if (wantLogout)

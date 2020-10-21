@@ -6,14 +6,14 @@ using TimeManagement.Services;
 
 namespace TimeManagement.Helpers
 {
-    public class Dowloanding 
+    public class Downloading 
     {
         private List<DayProgram> _activities;
         private readonly FirebaseService _firebaseService;
         private readonly SqLiteService _sqLiteService;
         private readonly PageService _pageService;
 
-        public Dowloanding()
+        public Downloading()
         {
             _firebaseService = new FirebaseService();
             _sqLiteService = new SqLiteService();

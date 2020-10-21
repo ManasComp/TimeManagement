@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline"  HorizontalOptions="Center"/>
         
-           <CollectionView x:Name="CollectionView1" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}"  BackgroundColor="Transparent">
+           <CollectionView x:Name="Activities_CollectionView" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}"  BackgroundColor="Transparent">
                <CollectionView.ItemTemplate>
                    <DataTemplate>
                        <StackLayout Padding="0,5,0,5">

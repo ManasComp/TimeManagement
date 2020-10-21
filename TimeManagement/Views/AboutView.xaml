@@ -29,7 +29,7 @@
             </StackLayout>
             <ActivityIndicator Grid.Row="1" IsRunning="{Binding IsRefreshing, Mode=OneWay}" Color="Green" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
             <Label Text="Version 1.0" Grid.Row="2" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-            <Button Grid.Row="4" Text="Back" Clicked="Button_OnClicked"/>
+            <Button Grid.Row="3" Text="Back" Clicked="Button_OnClicked"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

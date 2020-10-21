@@ -2,6 +2,7 @@
 using System.IO;
 using SQLite;
 using TimeManagement.Droid;
+using TimeManagement.Interfaces;
 using Xamarin.Forms;
 
 [assembly:Dependency(typeof(SqLiteAndroid))]

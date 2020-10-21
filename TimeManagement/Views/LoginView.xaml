@@ -82,7 +82,7 @@
                     <Label Text="NewUsers:" TextColor="White" FontAttributes="Bold"/>
                     
                     <StackLayout Orientation="Horizontal">
-                       <CheckBox x:Name="CheckBoxAgrree" VerticalOptions="Center" Color="White" IsChecked="True"/>
+                       <CheckBox x:Name="CheckBoxAgree" VerticalOptions="Center" Color="White" IsChecked="True"/>
                        <Label Text="I agree that data are not secured" TextColor="White" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
 

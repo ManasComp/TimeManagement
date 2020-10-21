@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeManagement.Helpers;
+using TimeManagement.Interfaces;
 using TimeManagement.Models;
 using TimeManagement.Services;
 using Xamarin.Forms;
@@ -41,7 +42,7 @@ namespace TimeManagement.ViewModels
         private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
         private readonly SqLiteService _sqLiteService;
         private readonly PageService _pageService;
-        private readonly Dowloanding _dowloanding;
+        private readonly Downloading _downloading;
         private List<Activity> _sQlitedata;
 
         public ActivityViewModel()
@@ -49,7 +50,7 @@ namespace TimeManagement.ViewModels
             Collection = new ObservableCollection<ActivityVM>();
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
-            _dowloanding = new Dowloanding();
+            _downloading = new Downloading();
             _value = _dayOfWeek;
             ToRun();
         }
@@ -59,7 +60,7 @@ namespace TimeManagement.ViewModels
             _sQlitedata = _sqLiteService.ToListAsync().Result;
             if (_sQlitedata.Count == 0)
             {
-                await _dowloanding.Download();
+                await _downloading.Download();
                 _sQlitedata = _sqLiteService.ToListAsync().Result;
             }
         }

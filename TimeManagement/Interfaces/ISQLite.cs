@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace TimeManagement
+namespace TimeManagement.Interfaces
 {
     public interface ISqLite
     {
