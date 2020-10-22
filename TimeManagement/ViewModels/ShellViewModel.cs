@@ -28,7 +28,7 @@ namespace TimeManagement.ViewModels
             _pageService = new PageService();
             _downloading = new Downloading();
             _sqLiteService=new SqLiteService();
-            Refresh = new Command(async () => await loadNewData());
+            Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
             About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
         }

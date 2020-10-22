@@ -37,7 +37,7 @@
                             <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
                             
                             <Entry Placeholder="Enter Username" Text="{Binding Username}" BackgroundColor="Transparent"
-                                   x:Name="EntryUsername"
+                                   x:Name="EntryUsername" TextColor="Black"
                                    HorizontalOptions="FillAndExpand">
                                 <Entry.Behaviors>
                                     <behaviours:NotNullBehaviour x:Name="UserNN"/>
@@ -53,7 +53,7 @@
                             <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
                             
                             <Entry Placeholder="Enter Password" Text="{Binding Password}" IsPassword="True"
-                                   BackgroundColor="Transparent"
+                                   BackgroundColor="Transparent" TextColor="Black"
                                    x:Name="EntryPassword"
                                    HorizontalOptions="FillAndExpand">
                                 <Entry.Behaviors>
