@@ -20,14 +20,14 @@ namespace TimeManagement.ViewModels
         private string _username;
         public string Username
         {
-            set => SetValue(ref _username, value);
+            set => SetValue(ref _username, value.Trim());
             get => _username;
         }
 
         private string _password;
         public string Password
         {
-            set => SetValue(ref _password, value);
+            set => SetValue(ref _password, value.Trim());
             get => _password;
         }
 

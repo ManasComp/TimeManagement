@@ -36,7 +36,9 @@ namespace TimeManagement.ViewModels
         {
             try
             {
+                MessagingCenter.Send<ShellViewModel>(this, "IsRefreshing");
                 await _downloading.Download();
+                MessagingCenter.Send<ShellViewModel>(this, "IsRefreshing");
                 await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
             }
             catch (Exception ex)

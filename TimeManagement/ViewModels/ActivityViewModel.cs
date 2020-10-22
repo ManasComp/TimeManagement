@@ -26,6 +26,21 @@ namespace TimeManagement.ViewModels
             set => SetValue(ref _day, value);
             get => _day;
         }
+        
+        private bool _isRefreshing;
+
+        public bool IsRefreshing
+        {
+            set => SetValue(ref _isRefreshing, value);
+            get => _isRefreshing;
+        }
+        
+        private double _activitiesOpacity;
+        public double ActivitiesOpacity
+        {
+            set => SetValue(ref _activitiesOpacity, value);
+            get => _activitiesOpacity;
+        }
 
         private ObservableCollection<ActivityVM> _collection;
 
@@ -51,6 +66,18 @@ namespace TimeManagement.ViewModels
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _downloading = new Downloading();
+            MessagingCenter.Subscribe<ShellViewModel> (this, "IsRefreshing", (sender) =>
+            {
+                IsRefreshing = !IsRefreshing;
+                if (IsRefreshing)
+                {
+                    ActivitiesOpacity = 0.2;
+                }
+                else
+                {
+                    ActivitiesOpacity = 1;
+                }
+            });
             _value = _dayOfWeek;
             ToRun();
         }
@@ -95,6 +122,8 @@ namespace TimeManagement.ViewModels
 
         private void uIsettings()
         {
+            IsRefreshing = false;
+            ActivitiesOpacity = 1;
             Next = new Command(async () => await changeDay(true));
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());

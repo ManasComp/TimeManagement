@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TimeManagement.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -85,5 +86,19 @@ namespace TimeManagement.Services
         {
             Vibration.Vibrate(duration);
         }
+
+        public async void MessagingCenterSend<T>(T sender, string massage) where T : class
+        {
+            MessagingCenter.Send<T>(sender, massage);
+        }
+        
+        public async void MessagingCenterSubscribe<T>(T sender, string massage, ICommand command, object parametr = null) where T : class
+        {
+            MessagingCenter.Subscribe<T>(sender, massage, (senderClass) =>
+            {
+                command.Execute(parametr);
+            });
+        }
+
     }
 }
