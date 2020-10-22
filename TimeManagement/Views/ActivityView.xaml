@@ -34,8 +34,8 @@
                </CollectionView.ItemTemplate>
            </CollectionView>
         
-       <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" HeightRequest="300" WidthRequest="300" IsVisible="{Binding IsRefreshing}">
-           <ActivityIndicator IsEnabled="{Binding IsRefreshing}"  IsRunning="{Binding IsRefreshing}" Color="Chocolate" BackgroundColor="Transparent"/>   
+       <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1"  HeightRequest="200" WidthRequest="200" IsVisible="{Binding IsRefreshing}">
+           <ActivityIndicator IsEnabled="{Binding IsRefreshing}" IsRunning="{Binding IsRefreshing}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>   
        </StackLayout>
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">

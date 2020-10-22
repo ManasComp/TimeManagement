@@ -92,9 +92,9 @@ namespace TimeManagement.Services
             MessagingCenter.Send<T>(sender, massage);
         }
         
-        public async void MessagingCenterSubscribe<T>(T sender, string massage, ICommand command, object parametr = null) where T : class
+        public async void MessagingCenterSubscribe<T, K>(K reveiver, string massage, ICommand command, object parametr = null) where T : class
         {
-            MessagingCenter.Subscribe<T>(sender, massage, (senderClass) =>
+            MessagingCenter.Subscribe<T>(reveiver, massage, (senderClass) =>
             {
                 command.Execute(parametr);
             });

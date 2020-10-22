@@ -59,6 +59,7 @@ namespace TimeManagement.ViewModels
         private readonly PageService _pageService;
         private readonly Downloading _downloading;
         private List<Activity> _sQlitedata;
+        private ICommand _toRefresh;
 
         public ActivityViewModel()
         {
@@ -66,22 +67,26 @@ namespace TimeManagement.ViewModels
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _downloading = new Downloading();
-            MessagingCenter.Subscribe<ShellViewModel> (this, "IsRefreshing", (sender) =>
-            {
-                IsRefreshing = !IsRefreshing;
-                if (IsRefreshing)
-                {
-                    ActivitiesOpacity = 0.2;
-                }
-                else
-                {
-                    ActivitiesOpacity = 1;
-                }
-            });
+
+            _toRefresh = new Command(async () => await refresh());
+            _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, MessagingCenterHelper.Refreshing, _toRefresh);
+            
             _value = _dayOfWeek;
             ToRun();
         }
 
+        private async Task refresh()
+        {
+            IsRefreshing = !IsRefreshing;
+            if (IsRefreshing)
+            {
+                ActivitiesOpacity = 0.2;
+            }
+            else
+            {
+                ActivitiesOpacity = 1;
+            }
+        }
         private async void dowlondData()
         {
             _sQlitedata = _sqLiteService.ToListAsync().Result;
