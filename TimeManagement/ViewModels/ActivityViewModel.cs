@@ -81,7 +81,7 @@ namespace TimeManagement.ViewModels
                 {
                     _programByDays.Add(new List<ActivityVM>());
                     day++;
-                    _programByDays[day - 1].Add(new ActivityVM(activity,  activity.Start, TimeSpan.FromHours(24), day-1));
+                    _programByDays[day - 1].Add(new ActivityVM(activity, activity.Start, TimeSpan.FromHours(24), day - 1));
                     _programByDays[day].Add(new ActivityVM(activity, TimeSpan.Zero, activity.End, day));
                 }
                 else
@@ -89,7 +89,8 @@ namespace TimeManagement.ViewModels
                     _programByDays[day].Add(new ActivityVM(activity));
                 }
             }
-            Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
+            if (_programByDays.Count>= _dayOfWeek)
+                Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
         }
 
         private void uIsettings()
