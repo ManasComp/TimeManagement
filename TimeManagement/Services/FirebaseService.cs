@@ -1,4 +1,5 @@
-﻿using Firebase.Database;
+﻿using System;
+using Firebase.Database;
 using Firebase.Database.Query;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace TimeManagement.Services
         private const string _url = "https://timemanegment-74160.firebaseio.com/";
         
         private readonly FirebaseClient _firebaseClient;
+        private readonly PageService _pageService;
 
         public FirebaseService()
         {

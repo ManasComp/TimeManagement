@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeManagement.Views;
@@ -14,17 +15,18 @@ namespace TimeManagement.Services
         private const string guest = "Guest";
         private const string guestId = "GuestId";
         private const string isCartItemTableCreated = "isCartItemTableCreated";
+
         public async Task DisplayAlert(string title, string message, string cancel)
         {
             await Application.Current.MainPage.DisplayAlert(title, message, cancel);
         }
-        
+
         public async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)
         {
             return await Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
         }
 
-        public async Task<string> ReturnUsername(string defaultValue= guest)
+        public async Task<string> ReturnUsername(string defaultValue = guest)
         {
             return Preferences.Get(username, defaultValue);
         }
@@ -34,7 +36,7 @@ namespace TimeManagement.Services
             Preferences.Set(username, value);
             return Task.CompletedTask;
         }
-        
+
         public async Task<string> ReturnId(string defaultValue = guestId)
         {
             return Preferences.Get(id, defaultValue);
@@ -56,7 +58,7 @@ namespace TimeManagement.Services
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
         }
-        
+
         public async Task PushAsync(Page page)
         {
             await Application.Current.MainPage.Navigation.PushAsync(page);
@@ -69,14 +71,14 @@ namespace TimeManagement.Services
 
         public async Task<bool> GetIsCartTableCreated()
         {
-           return Preferences.Get(isCartItemTableCreated, false);
+            return Preferences.Get(isCartItemTableCreated, false);
         }
-        
+
         public async Task SetIsCartTableCreated(bool value)
         {
             Preferences.Set(isCartItemTableCreated, value);
         }
-        
+
         public async Task RestartApp()
         {
             (Application.Current).MainPage = new ShellView();
@@ -91,13 +93,29 @@ namespace TimeManagement.Services
         {
             MessagingCenter.Send<T>(sender, massage);
         }
-        
-        public async void MessagingCenterSubscribe<T, K>(K reveiver, string massage, ICommand command, object parametr = null) where T : class
+
+        public async void MessagingCenterSubscribe<T, K>(K reveiver, string massage, ICommand command,
+            object parametr = null) where T : class
         {
-            MessagingCenter.Subscribe<T>(reveiver, massage, (senderClass) =>
-            {
-                command.Execute(parametr);
-            });
+            MessagingCenter.Subscribe<T>(reveiver, massage, (senderClass) => { command.Execute(parametr); });
+        }
+
+        public async Task<bool> IsNetwork()
+        {
+            return Connectivity.NetworkAccess == NetworkAccess.Internet;
+        }
+
+        public async Task<bool> IsWifi()
+        {
+            if (IsNetwork().Result)
+                return Connectivity.ConnectionProfiles.Contains(ConnectionProfile.WiFi);
+            else
+                return false;
+        }
+        
+        public async Task DisplayNoInternetAlert(string title="error", string message="internet", string cancel="ok")
+        {
+            await DisplayAlert(title, message, cancel);
         }
 
     }

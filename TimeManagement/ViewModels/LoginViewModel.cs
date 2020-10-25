@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeManagement.Helpers;
@@ -62,12 +63,19 @@ namespace TimeManagement.ViewModels
             _pageService = new PageService();
             _userService = new UserService();
             _firebase = new FirebaseService();
+            IsBusy = false;
         }
 
         private async Task RegisterCommandAsync()
         {
             if (IsBusy)
                 return;
+            if (_pageService.IsNetwork().Result == false)
+            {
+                await _pageService.DisplayNoInternetAlert();;
+                return;
+            }
+
             try
             {
                 await AnalyticsHelper.TrackEventAsync($"Register Command Executing for {Username}");
@@ -103,10 +111,16 @@ namespace TimeManagement.ViewModels
         {
             if (IsBusy)
                 return;
+            if (_pageService.IsNetwork().Result == false)
+            {
+                await _pageService.DisplayNoInternetAlert();
+                return;
+            }
             try
             {
                 await AnalyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
                 Login();
+                Thread.Sleep(5000);
             }
             catch (Exception ex)
             {

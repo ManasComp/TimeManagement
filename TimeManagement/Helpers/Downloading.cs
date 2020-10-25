@@ -22,9 +22,14 @@ namespace TimeManagement.Helpers
 
         public async Task Download()
         {
-            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId().Result)).FirstOrDefault();
+            if (_pageService.IsNetwork().Result == false)
+            {
+                await _pageService.DisplayNoInternetAlert();
+                return;
+            }
+            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId().Result)).FirstOrDefault();//there is problem
             await _sqLiteService.DeleteAllAsync();
-            if (_activities != null)
+            if (_activities != null)//problem solution
             {
                 foreach (DayProgram program in _activities)
                 {
@@ -34,7 +39,11 @@ namespace TimeManagement.Helpers
                         await _sqLiteService.InsertAsync(activity);
                     }
                 }
-                await _pageService.RestartApp();
+                await _pageService.RestartApp();//problem solution
+            }
+            else
+            {
+               await _pageService.DisplayAlert("Error", "No data found", "OK");
             }
         }
     }

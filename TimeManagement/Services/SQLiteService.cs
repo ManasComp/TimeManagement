@@ -20,7 +20,7 @@ namespace TimeManagement.Services
         public async Task<int> Count<T>() where T : new()
         {
             int count = _sqLiteConnection.Table<T>().Count();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Close();
             return count;
         }
 
@@ -28,7 +28,7 @@ namespace TimeManagement.Services
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();//why does it has to behere?
             _sqLiteConnection.CreateTable<Activity>();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Close();
             return Task.CompletedTask;
         }
 
@@ -42,8 +42,8 @@ namespace TimeManagement.Services
         public Task DeleteAllAsync()
         {
             _sqLiteConnection.DeleteAll<Activity>();
-            _sqLiteConnection.Commit();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Commit();
+            //_sqLiteConnection.Close();
             return Task.CompletedTask;
         }
 
@@ -51,7 +51,7 @@ namespace TimeManagement.Services
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();//why does it has to behere?
             List<Activity> items = _sqLiteConnection.Table<Activity>().ToList();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Close();
             return items;
         }
 
@@ -59,15 +59,15 @@ namespace TimeManagement.Services
         {
             _sqLiteConnection = DependencyService.Get<ISqLite>().GetConnection();//why does it has to behere?
             _sqLiteConnection.Insert(item);
-            _sqLiteConnection.Commit();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Commit();
+            //_sqLiteConnection.Close();
         }
         
         public async Task UpdateAsync(List<DayProgram> item)
         {
             _sqLiteConnection.Update(item);
-            _sqLiteConnection.Commit();
-            _sqLiteConnection.Close();
+            //_sqLiteConnection.Commit();
+            //_sqLiteConnection.Close();
         }
     }
 }

@@ -38,10 +38,11 @@
            <ActivityIndicator IsEnabled="{Binding IsRefreshing}" IsRunning="{Binding IsRefreshing}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>   
        </StackLayout>
        
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2">
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2" HeightRequest="60">
             <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.left.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="Start" Command="{Binding Before}"/>
             <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.home.png}" WidthRequest="60" HeightRequest="60" HorizontalOptions="CenterAndExpand" Command="{Binding Actual}"/>
             <ImageButton BackgroundColor="Transparent" Source="{local:EmbeddedImage TimeManagement.Images.right.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="End" Command="{Binding Next}"/>
         </StackLayout>
+        
     </Grid>
 </ContentPage>

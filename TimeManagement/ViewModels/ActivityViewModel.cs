@@ -70,7 +70,7 @@ namespace TimeManagement.ViewModels
 
             _toRefresh = new Command(async () => await refresh());
             _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, MessagingCenterHelper.Refreshing, _toRefresh);
-            
+
             _value = _dayOfWeek;
             ToRun();
         }
@@ -121,7 +121,7 @@ namespace TimeManagement.ViewModels
                     _programByDays[day].Add(new ActivityVM(activity));
                 }
             }
-            if (_programByDays.Count>= _dayOfWeek)
+            if (_programByDays.Count> _dayOfWeek)
                 Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
         }
 
@@ -203,7 +203,7 @@ namespace TimeManagement.ViewModels
         private void scrollToItem(int index)
         {
             if (index>=0)
-                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Start,true);//I would like to scroll it to center
+                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Center,true);//I would like to scroll it to center
             //View.CollectionView.ScrollTo(index);
         }
     }

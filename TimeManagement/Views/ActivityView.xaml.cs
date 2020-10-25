@@ -20,6 +20,7 @@ namespace TimeManagement.Views
         {
             base.OnAppearing();
             await AnalyticsHelper.TrackEventAsync("ActivityView opened");
+            //(BindingContext as ActivityViewModel)?.ToRun();
             (BindingContext as ActivityViewModel)?.FirstScroll();//why it does not work properly?
         }
 

@@ -22,7 +22,7 @@ namespace TimeManagement.ViewModels
             set => SetValue(ref _isRefreshing, value);
             get => _isRefreshing;
         }
-
+        
         public ShellViewModel()
         {
             _pageService = new PageService();
@@ -30,7 +30,7 @@ namespace TimeManagement.ViewModels
             _sqLiteService=new SqLiteService();
             Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
-            About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
+            About = new Command(async() => await _pageService.PushAsync(new NavigationPage(new AboutView())));
         }
         private async Task loadNewData()
         {
