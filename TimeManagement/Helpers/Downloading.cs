@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TimeManagement.Models;
@@ -27,7 +28,18 @@ namespace TimeManagement.Helpers
                 await _pageService.DisplayNoInternetAlert();
                 return;
             }
-            _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId().Result)).FirstOrDefault();//there is problem
+
+            try
+            {
+                _activities = (await _firebaseService.OnceAsync<List<DayProgram>>(_pageService.ReturnId().Result))
+                    .FirstOrDefault(); //there is problem
+            }
+            catch(Exception ex)
+            {
+                await _pageService.DisplayAlert("er", ex.Message, "OK");
+            }
+
+
             await _sqLiteService.DeleteAllAsync();
             if (_activities != null)//problem solution
             {
@@ -39,7 +51,7 @@ namespace TimeManagement.Helpers
                         await _sqLiteService.InsertAsync(activity);
                     }
                 }
-                await _pageService.RestartApp();//problem solution
+                //await _pageService.RestartApp();//problem solution
             }
             else
             {

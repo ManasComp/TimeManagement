@@ -72,7 +72,11 @@ namespace TimeManagement.ViewModels
             _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, MessagingCenterHelper.Refreshing, _toRefresh);
 
             _value = _dayOfWeek;
-            ToRun();
+            Task task = Task.Run(async () =>
+            {
+                await ToRun();
+            });
+            Task.WaitAll(task);
         }
 
         private async Task refresh()

@@ -120,7 +120,7 @@ namespace TimeManagement.ViewModels
             {
                 await AnalyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
                 Login();
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
             }
             catch (Exception ex)
             {
