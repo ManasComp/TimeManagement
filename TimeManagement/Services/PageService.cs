@@ -6,6 +6,7 @@ using TimeManagement.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
+
 namespace TimeManagement.Services
 {
     public class PageService
@@ -117,6 +118,10 @@ namespace TimeManagement.Services
         {
             await DisplayAlert(title, message, cancel);
         }
-
+        
+        public async Task<T> DependencyServiceGet<T>() where T : class
+        {
+            return Xamarin.Forms.DependencyService.Get<T>();
+        }
     }
 }
