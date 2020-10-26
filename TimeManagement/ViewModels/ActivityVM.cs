@@ -1,5 +1,4 @@
 ﻿using System;
-
 using TimeManagement.Models;
 using Xamarin.Forms;
 

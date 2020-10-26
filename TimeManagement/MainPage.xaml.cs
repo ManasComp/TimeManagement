@@ -6,7 +6,6 @@ namespace TimeManagement
     {
         public MainPage()
         {
-            
             InitializeComponent();
         }
     }
