@@ -67,6 +67,7 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashActivity.cs" />
     <Compile Include="SQLite_Android.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,8 +76,16 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_logo.png" />
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
     <AndroidResource Include="Resources\layout\Tabbar.xml" />
     <AndroidResource Include="Resources\layout\Toolbar.xml" />
+    <AndroidResource Include="Resources\mipmap-anydpi-v26\clock.xml" />
+    <AndroidResource Include="Resources\mipmap-hdpi\clock.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\clock.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\clock.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\clock.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\clock.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml" />
