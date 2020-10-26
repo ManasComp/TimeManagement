@@ -16,7 +16,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <!-- <MediaElement Source="" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" IsLooping="True"/> -->
+            <MediaElement Source="ms-appx://cook.mp4" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" IsLooping="True"/>
             <Grid VerticalOptions="Center" Opacity="0.6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
