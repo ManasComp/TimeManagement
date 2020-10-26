@@ -51,7 +51,7 @@ namespace TimeManagement.Helpers
                         await _sqLiteService.InsertAsync(activity);
                     }
                 }
-                //await _pageService.RestartApp();//problem solution
+                await _pageService.RestartApp();//problem solution
             }
             else
             {

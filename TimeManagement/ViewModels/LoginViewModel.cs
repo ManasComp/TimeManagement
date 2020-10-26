@@ -120,7 +120,6 @@ namespace TimeManagement.ViewModels
             {
                 await AnalyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
                 Login();
-                //Thread.Sleep(5000);
             }
             catch (Exception ex)
             {
@@ -136,7 +135,7 @@ namespace TimeManagement.ViewModels
             }
         }
 
-        private async void Login()
+        private async Task Login()
         {
             IsBusy = true;
             Result = await _userService.Login(Username, Password);
