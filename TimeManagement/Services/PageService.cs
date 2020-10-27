@@ -95,10 +95,10 @@ namespace TimeManagement.Services
             MessagingCenter.Send<T>(sender, massage);
         }
 
-        public async void MessagingCenterSubscribe<T, K>(K reveiver, string massage, ICommand command,
+        public async void MessagingCenterSubscribe<T, K>(K receiver, string massage, ICommand command,
             object parametr = null) where T : class
         {
-            MessagingCenter.Subscribe<T>(reveiver, massage, (senderClass) => { command.Execute(parametr); });
+            MessagingCenter.Subscribe<T>(receiver, massage, (senderClass) => { command.Execute(parametr); });
         }
 
         public async Task<bool> IsNetwork()

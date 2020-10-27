@@ -21,9 +21,7 @@ namespace TimeManagement.ViewModels
         private readonly CrashesHelper _crashesHelper;
         private readonly MessagingCenterHelper _messagingCenterHelper;
         
-
         private string _day;
-
         public string Day
         {
             set => SetValue(ref _day, value);
@@ -46,7 +44,6 @@ namespace TimeManagement.ViewModels
         }
 
         private ObservableCollection<ActivityVM> _collection;
-
         public ObservableCollection<ActivityVM> Collection
         {
             get => _collection;
@@ -62,7 +59,6 @@ namespace TimeManagement.ViewModels
         private readonly PageService _pageService;
         private readonly Downloading _downloading;
         private List<Activity> _sQlitedata;
-        private ICommand _toRefresh;
 
         public ActivityViewModel()
         {
@@ -72,8 +68,7 @@ namespace TimeManagement.ViewModels
             _downloading = new Downloading();
             _crashesHelper = new CrashesHelper();
             _messagingCenterHelper = new MessagingCenterHelper();
-            _toRefresh = new Command(async () => await refresh());
-            _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, _messagingCenterHelper.Refreshing, _toRefresh);
+            _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, _messagingCenterHelper.Refreshing, new Command(async () => await refresh()));
 
             _value = _dayOfWeek;
             Task task = Task.Run(async () =>

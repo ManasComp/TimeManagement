@@ -15,7 +15,6 @@ namespace TimeManagement
         private static bool _isCartTableCreated;
         public App()
         {
-            
             _pageService = new PageService();
             _sqLiteService = new SqLiteService();
             InitializeComponent();

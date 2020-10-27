@@ -10,9 +10,7 @@ namespace TimeManagement.Services
     public class FirebaseService
     {
         private const string _url = "https://timemanegment-74160.firebaseio.com/";
-        
         private readonly FirebaseClient _firebaseClient;
-        private readonly PageService _pageService;
 
         public FirebaseService()
         {
