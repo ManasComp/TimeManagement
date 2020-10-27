@@ -100,8 +100,8 @@
                     </Button>
                 </StackLayout>
             </Grid>
-            <StackLayout BackgroundColor="Red" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HeightRequest="200" WidthRequest="200" AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1" AbsoluteLayout.LayoutFlags="PositionProportional">
-                <ActivityIndicator IsEnabled="true" IsRunning="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>
+            <StackLayout HorizontalOptions="Center" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HeightRequest="200" WidthRequest="200" AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1" AbsoluteLayout.LayoutFlags="PositionProportional">
+                <ActivityIndicator IsEnabled="{Binding IsBusy}" IsRunning="{Binding IsBusy}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>
             </StackLayout>
         </AbsoluteLayout>
 

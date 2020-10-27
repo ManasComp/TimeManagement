@@ -79,9 +79,9 @@ namespace TimeManagement.ViewModels
                 await _pageService.DisplayNoInternetAlert();;
                 return;
             }
-
             try
             {
+                IsBusy = true;
                 await _analyticsHelper.TrackEventAsync($"Register Command Executing for {Username}");
                 Register();
             }
@@ -101,7 +101,6 @@ namespace TimeManagement.ViewModels
 
         private async void Register()
         {
-            IsBusy = true;
             Result = await _userService.RegisterUser(Username, Password);
             if (Result)
             {
@@ -122,8 +121,10 @@ namespace TimeManagement.ViewModels
             }
             try
             {
+                IsBusy = true;
                 await _analyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
                 Login();
+                //await Task.Delay(10000);
             }
             catch (Exception ex)
             {
@@ -139,9 +140,8 @@ namespace TimeManagement.ViewModels
             }
         }
 
-        private async Task Login()
+        private async void Login()
         {
-            IsBusy = true;
             Result = await _userService.Login(Username, Password);
             if (Result)
             {
