@@ -10,13 +10,13 @@ namespace TimeManagement.iOS
 {
     public class SqLiteIOs:ISqLite
     {
-        public SQLiteConnection GetConnection()
+        public SQLiteAsyncConnection GetConnection()
         {
             var sqliteFileName = "MyDatabase.db3";
             string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string libratyPath = Path.Combine(documentsPath, "..", "Library");
             var path = Path.Combine(libratyPath, sqliteFileName);
-            var cn = new SQLiteConnection(path);
+            var cn = new SQLiteAsyncConnection(path);
             return cn;
         }
     }

@@ -55,7 +55,7 @@ namespace TimeManagement.ViewModels
         private ActivityVM _actualShowedActivity;
         private int _value;
         private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
-        private readonly SqLiteService _sqLiteService;
+        private SqLiteService _sqLiteService;
         private readonly PageService _pageService;
         private readonly Downloading _downloading;
         private List<Activity> _sQlitedata;
@@ -96,6 +96,7 @@ namespace TimeManagement.ViewModels
             if (_sQlitedata.Count == 0)
             {
                 await _downloading.Download();
+                _sqLiteService = new SqLiteService();
                 _sQlitedata = _sqLiteService.ToListAsync().Result;
             }
         }

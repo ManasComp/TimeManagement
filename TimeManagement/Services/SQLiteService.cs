@@ -8,7 +8,7 @@ namespace TimeManagement.Services
 {
     public class SqLiteService
     {
-        private readonly SQLiteConnection _sqLiteConnection;
+        private readonly SQLiteAsyncConnection _sqLiteConnection;
         private readonly PageService _pageService;
 
         public SqLiteService()
@@ -18,43 +18,42 @@ namespace TimeManagement.Services
         }
         public async Task<int> Count<T>() where T : new()
         {
-            int count = _sqLiteConnection.Table<T>().Count();
+            int count = _sqLiteConnection.Table<T>().ToListAsync().Result.Count;
             return count;
         }
 
         public Task CreateTableAsync()
         {
-            _sqLiteConnection.CreateTable<Activity>();
+            _sqLiteConnection.CreateTableAsync<Activity>();
             return Task.CompletedTask;
         }
 
         public async Task DropTableAsync()
         {
-            _sqLiteConnection.DropTable<Activity>();
-            _sqLiteConnection.Close();
+            await _sqLiteConnection.DropTableAsync<Activity>();
             await _pageService.SetIsCartTableCreated(false);
         }
 
         public Task DeleteAllAsync()
         {
-            _sqLiteConnection.DeleteAll<Activity>();
+            _sqLiteConnection.DeleteAllAsync<Activity>();
             return Task.CompletedTask;
         }
 
         public async Task<List<Activity>> ToListAsync()
         {
-            List<Activity> items = _sqLiteConnection.Table<Activity>().ToList();
+            List<Activity> items = _sqLiteConnection.Table<Activity>().ToListAsync().Result;
             return items;
         }
 
         public async Task InsertAsync(Activity item)
         {
-            _sqLiteConnection.Insert(item);
+            await _sqLiteConnection.InsertAsync(item);
         }
         
         public async Task UpdateAsync(List<DayProgram> item)
         {
-            _sqLiteConnection.Update(item);
+            await _sqLiteConnection.UpdateAsync(item);
         }
     }
 }

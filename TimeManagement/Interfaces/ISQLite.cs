@@ -4,6 +4,6 @@ namespace TimeManagement.Interfaces
 {
     public interface ISqLite
     {
-        SQLiteConnection GetConnection();
+        SQLiteAsyncConnection GetConnection();
     }
 }
