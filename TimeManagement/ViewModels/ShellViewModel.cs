@@ -36,7 +36,7 @@ namespace TimeManagement.ViewModels
             _messagingCenterHelper = new MessagingCenterHelper();
             Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
-            About = new Command(async() => await _pageService.PushAsync(new NavigationPage(new AboutView())));
+            About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
         }
         private async Task loadNewData()
         {

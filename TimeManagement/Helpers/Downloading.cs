@@ -51,7 +51,7 @@ namespace TimeManagement.Helpers
                         await _sqLiteService.InsertAsync(activity);
                     }
                 }
-                await _pageService.RestartApp();//problem solution
+                //await _pageService.RestartApp(); //problem solution but if it is enabled, there is IllegalArgumentException
             }
             else
             {
