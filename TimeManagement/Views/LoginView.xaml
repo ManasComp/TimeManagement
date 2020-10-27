@@ -16,7 +16,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <MediaElement Source="ms-appx://cook.mp4" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" IsLooping="True"/>
+            <MediaElement AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Source="https://static.videezy.com/system/resources/previews/000/007/284/original/GoldenDustGlow.mp4" AutoPlay="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill" IsLooping="True"/>
             <Grid VerticalOptions="Center" Opacity="0.6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -30,14 +30,14 @@
                     <Label Text="Time Manegment" TextColor="White" FontAttributes="Bold" FontSize="60" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                     <Label Text="Login Form" TextColor="White" FontSize="40" HorizontalOptions="Center"/>
                 </StackLayout>
-
+            
                 <StackLayout Grid.Row="1" Spacing="10">
                     <Frame CornerRadius="20">
                         <StackLayout Orientation="Horizontal">
                             <!-- <Image Source="{FontImage FontFamily=FontAwesome, -->
                             <!--     Glyph={x:Static helpers:IconFont.AccountCircle}, Size=30, Color=Black}" -->
                             <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
-                            
+            
                             <Entry Placeholder="Enter Username" Text="{Binding Username}" BackgroundColor="Transparent"
                                    x:Name="EntryUsername" TextColor="Black"
                                    HorizontalOptions="FillAndExpand">
@@ -47,13 +47,13 @@
                             </Entry>
                         </StackLayout>
                     </Frame>
-                    
+            
                     <Frame CornerRadius="20">
                         <StackLayout Orientation="Horizontal">
                             <!-- <Image Source="{FontImage FontFamily=FontAwesome, -->
                             <!--     Glyph={x:Static helpers:IconFont.Lock}, Size=30, Color=Black}" -->
                             <!--        HorizontalOptions="Start" VerticalOptions="Center" Aspect="AspectFit"/> -->
-                            
+            
                             <Entry Placeholder="Enter Password" Text="{Binding Password}" IsPassword="True"
                                    BackgroundColor="Transparent" TextColor="Black"
                                    x:Name="EntryPassword"
@@ -64,7 +64,7 @@
                             </Entry>
                         </StackLayout>
                     </Frame>
-
+            
                     <Button Text="Login" HorizontalOptions="Center" BackgroundColor="Purple"
                             TextColor="White" WidthRequest="200" HeightRequest="60" CornerRadius="20"
                             Command="{Binding LoginCommand}" IsEnabled="{Binding Disable, Mode=TwoWay}">
@@ -80,14 +80,14 @@
                             </MultiTrigger>
                         </Button.Triggers>
                     </Button>
-
+            
                     <Label Text="NewUsers:" TextColor="White" FontAttributes="Bold"/>
-                    
+            
                     <StackLayout Orientation="Horizontal">
                        <CheckBox x:Name="CheckBoxAgree" VerticalOptions="Center" Color="White" IsChecked="True"/>
                        <Label Text="I agree that data are not secured" TextColor="White" VerticalOptions="Center" FontAttributes="Bold"/>
                     </StackLayout>
-
+            
                     <Button Text="Register" HorizontalOptions="Center" BackgroundColor="DarkOrange"
                             TextColor="White" WidthRequest="200" HeightRequest="60" CornerRadius="20"
                             Command="{Binding RegisterCommand}">
@@ -101,7 +101,7 @@
                 </StackLayout>
             </Grid>
             <StackLayout BackgroundColor="Red" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HeightRequest="200" WidthRequest="200" AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1" AbsoluteLayout.LayoutFlags="PositionProportional">
-                <ActivityIndicator IsEnabled="true" IsRunning="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>   
+                <ActivityIndicator IsEnabled="true" IsRunning="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Color="Chocolate" BackgroundColor="Transparent"/>
             </StackLayout>
         </AbsoluteLayout>
 

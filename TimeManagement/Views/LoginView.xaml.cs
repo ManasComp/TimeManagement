@@ -7,14 +7,16 @@ namespace TimeManagement.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginView : ContentPage
     {
+        private readonly AnalyticsHelper  _analyticsHelper;
         public LoginView()
         {
             InitializeComponent();
+            _analyticsHelper = new AnalyticsHelper();
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await AnalyticsHelper.TrackEventAsync("LoginView opened");
+            await _analyticsHelper.TrackEventAsync("LoginView opened");
         }
     }
 }

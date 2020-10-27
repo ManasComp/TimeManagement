@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace TimeManagement.Helpers
 {
-    public static class AnalyticsHelper
+    public class AnalyticsHelper
     {
-        public static async Task TrackEventAsync(string eventName, Dictionary<string, string> properties = null)
+        public async Task TrackEventAsync(string eventName, Dictionary<string, string> properties = null)
         {
             if (await Microsoft.AppCenter.Analytics.Analytics.IsEnabledAsync())
                 Microsoft.AppCenter.Analytics.Analytics.TrackEvent(eventName,properties);

@@ -18,6 +18,9 @@ namespace TimeManagement.ViewModels
         public ICommand Next { get; set; }
         public ICommand Before { get; set; }
         public ICommand Actual { get; set; }
+        private readonly CrashesHelper _crashesHelper;
+        private readonly MessagingCenterHelper _messagingCenterHelper;
+        
 
         private string _day;
 
@@ -67,9 +70,10 @@ namespace TimeManagement.ViewModels
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _downloading = new Downloading();
-
+            _crashesHelper = new CrashesHelper();
+            _messagingCenterHelper = new MessagingCenterHelper();
             _toRefresh = new Command(async () => await refresh());
-            _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, MessagingCenterHelper.Refreshing, _toRefresh);
+            _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, _messagingCenterHelper.Refreshing, _toRefresh);
 
             _value = _dayOfWeek;
             Task task = Task.Run(async () =>
@@ -157,7 +161,7 @@ namespace TimeManagement.ViewModels
             catch (Exception ex)
             {
                 await _pageService.DisplayAlert("Error", ex.Message, "OK");
-                await CrashesHelper.TrackErrorAsync(ex);
+                await _crashesHelper.TrackErrorAsync(ex);
             }
         }
 

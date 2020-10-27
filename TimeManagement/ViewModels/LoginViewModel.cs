@@ -17,6 +17,8 @@ namespace TimeManagement.ViewModels
         private readonly PageService _pageService;
         public ICommand LoginCommand { get; set; }
         public ICommand RegisterCommand { get; set; }
+        private readonly CrashesHelper _crashesHelper;
+        private readonly AnalyticsHelper _analyticsHelper;
         
         private string _username;
         public string Username
@@ -63,6 +65,8 @@ namespace TimeManagement.ViewModels
             _pageService = new PageService();
             _userService = new UserService();
             _firebase = new FirebaseService();
+            _crashesHelper = new CrashesHelper();
+            _analyticsHelper = new AnalyticsHelper();
             IsBusy = false;
         }
 
@@ -78,13 +82,13 @@ namespace TimeManagement.ViewModels
 
             try
             {
-                await AnalyticsHelper.TrackEventAsync($"Register Command Executing for {Username}");
+                await _analyticsHelper.TrackEventAsync($"Register Command Executing for {Username}");
                 Register();
             }
             catch (Exception ex)
             {
                 await _pageService.DisplayAlert("Error", ex.Message, "OK");
-                await CrashesHelper.TrackErrorAsync(ex, new Dictionary<string, string>
+                await _crashesHelper.TrackErrorAsync(ex, new Dictionary<string, string>
                 {
                     {"username", Username}
                 });
@@ -118,13 +122,13 @@ namespace TimeManagement.ViewModels
             }
             try
             {
-                await AnalyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
+                await _analyticsHelper.TrackEventAsync($"Login Command Executing for {Username}");
                 Login();
             }
             catch (Exception ex)
             {
                 await _pageService.DisplayAlert("Error", ex.Message, "OK");
-                await CrashesHelper.TrackErrorAsync(ex, new Dictionary<string, string>
+                await _crashesHelper.TrackErrorAsync(ex, new Dictionary<string, string>
                 {
                     {"username", Username}
                 });

@@ -1,7 +1,7 @@
 ﻿namespace TimeManagement.Helpers
 {
-    public static class MessagingCenterHelper
+    public class MessagingCenterHelper
     {
-        public static string Refreshing { get; } = "IsRefreshing";
+        public string Refreshing { get; } = "IsRefreshing";
     }
 }

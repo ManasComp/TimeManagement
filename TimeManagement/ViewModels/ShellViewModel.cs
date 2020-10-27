@@ -12,6 +12,9 @@ namespace TimeManagement.ViewModels
     {
         private readonly PageService _pageService;
         private readonly Downloading _downloading;
+        private readonly CrashesHelper _crashesHelper;
+        private readonly AnalyticsHelper _analyticsHelper;
+        private readonly MessagingCenterHelper _messagingCenterHelper;
         private SqLiteService _sqLiteService;
         public ICommand LogoutCommand { get; set; }
         public ICommand Refresh { get; set; }
@@ -28,6 +31,9 @@ namespace TimeManagement.ViewModels
             _pageService = new PageService();
             _downloading = new Downloading();
             _sqLiteService=new SqLiteService();
+            _crashesHelper = new CrashesHelper();
+            _analyticsHelper = new AnalyticsHelper();
+            _messagingCenterHelper = new MessagingCenterHelper();
             Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
             About = new Command(async() => await _pageService.PushAsync(new NavigationPage(new AboutView())));
@@ -36,15 +42,15 @@ namespace TimeManagement.ViewModels
         {
             try
             {
-                _pageService.MessagingCenterSend<ShellViewModel>(this, MessagingCenterHelper.Refreshing);
+                _pageService.MessagingCenterSend<ShellViewModel>(this, _messagingCenterHelper.Refreshing);
                 await _downloading.Download();
-                _pageService.MessagingCenterSend<ShellViewModel>(this, MessagingCenterHelper.Refreshing);
+                _pageService.MessagingCenterSend<ShellViewModel>(this, _messagingCenterHelper.Refreshing);
                 await _pageService.DisplayAlert("Refreshing", "Refreshing completed!", "ok");
             }
             catch (Exception ex)
             {
                 await _pageService.DisplayAlert("Error", ex.Message, "OK");
-                await CrashesHelper.TrackErrorAsync(ex);
+                await _crashesHelper.TrackErrorAsync(ex);
             }
         }
         
@@ -53,7 +59,7 @@ namespace TimeManagement.ViewModels
             bool wantLogout = await _pageService.DisplayAlert("Warning", "Do you really want to log out?", "Yes", "No");
             if (wantLogout)
             {
-                await AnalyticsHelper.TrackEventAsync($"LogoutUser");
+                await _analyticsHelper.TrackEventAsync($"LogoutUser");
                 await _pageService.RemoveUsername();
                 _sqLiteService = new SqLiteService();
                 await _sqLiteService.DeleteAllAsync();

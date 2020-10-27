@@ -11,15 +11,17 @@ namespace TimeManagement.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActivityView : ContentPage, IHasCollectionView
     {
+        private readonly AnalyticsHelper _analyticsHelper;
         public ActivityView()
         {
             InitializeComponent();
+            _analyticsHelper = new AnalyticsHelper();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await AnalyticsHelper.TrackEventAsync("ActivityView opened");
+            await _analyticsHelper.TrackEventAsync("ActivityView opened");
             //(BindingContext as ActivityViewModel)?.ToRun();
             (BindingContext as ActivityViewModel)?.FirstScroll();//why it does not work properly?
         }
