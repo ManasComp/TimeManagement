@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeManagement.Helpers;
@@ -18,6 +19,7 @@ namespace TimeManagement.ViewModels
         public ICommand Next { get; set; }
         public ICommand Before { get; set; }
         public ICommand Actual { get; set; }
+        public ICommand Load { get; set; }
         private readonly CrashesHelper _crashesHelper;
         private readonly MessagingCenterHelper _messagingCenterHelper;
         
@@ -47,12 +49,21 @@ namespace TimeManagement.ViewModels
         public ObservableCollection<ActivityVM> Collection
         {
             get => _collection;
-            set => SetValue(ref _collection, value);
+            set
+            {
+                SetValue(ref _collection, value);
+                if (_actualId >= 0 && _collection.Count>_actualId-1)
+                {
+                    _collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
+                    _collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
+                }
+            }
         }
 
         private int _actualId => Collection.IndexOf(_actualShowedActivity);
         private List<List<ActivityVM>> _programByDays = new List<List<ActivityVM>>();
-        private ActivityVM _actualShowedActivity;
+        private ActivityVM _actualShowedActivity =>Collection
+             .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
         private int _value;
         private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
         private SqLiteService _sqLiteService;
@@ -69,13 +80,9 @@ namespace TimeManagement.ViewModels
             _crashesHelper = new CrashesHelper();
             _messagingCenterHelper = new MessagingCenterHelper();
             _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, _messagingCenterHelper.Refreshing, new Command(async () => await refresh()));
-
             _value = _dayOfWeek;
-            Task task = Task.Run(async () =>
-            {
-                await ToRun();
-            });
-            Task.WaitAll(task);
+            
+            uIsettings();
         }
 
         private async Task refresh()
@@ -131,28 +138,22 @@ namespace TimeManagement.ViewModels
 
         private void uIsettings()
         {
-            IsRefreshing = false;
+            IsRefreshing = true;
             ActivitiesOpacity = 1;
             Next = new Command(async () => await changeDay(true));
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());
-            if (_actualId >= 0)
-            {
-                Collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
-                Collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
-            }
-
+            Load = new Command(async  () => await ToLoad());
             Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek).ToString().ToUpper();
         }
-        public async Task ToRun()
+        private async Task ToLoad()
         {
             try
             {
                 dowlondData();
                 convertingToVm();
-                _actualShowedActivity = Collection
-                    .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
-                uIsettings();
+                scrollToItem(_actualId);
+                IsRefreshing = false;
             }
             catch (Exception ex)
             {
@@ -199,16 +200,10 @@ namespace TimeManagement.ViewModels
             await _pageService.Vibrate();
         }
 
-        public void FirstScroll()
-        {
-            scrollToItem(_actualId);
-        }
-        
         private void scrollToItem(int index)
         {
             if (index>=0)
-                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Center,true);//I would like to scroll it to center
-            //View.CollectionView.ScrollTo(index);
+                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Center,true);
         }
     }
 }
