@@ -45,8 +45,8 @@ namespace TimeManagement.ViewModels
             get => _activitiesOpacity;
         }
 
-        private ObservableCollection<ActivityVM> _collection;
-        public ObservableCollection<ActivityVM> Collection
+        private ObservableCollection<ActivityVm> _collection;
+        public ObservableCollection<ActivityVm> Collection
         {
             get => _collection;
             set
@@ -54,7 +54,7 @@ namespace TimeManagement.ViewModels
                 SetValue(ref _collection, value);
                 if (_actualId >= 0 && _collection.Count > _actualId - 1)
                 {
-                    foreach (ActivityVM item in Collection.Where(k=> k.Start<=DateTime.Today.TimeOfDay))
+                    foreach (ActivityVm item in Collection.Where(k=> k.Start<=DateTime.Today.TimeOfDay))
                     {
                         item.SetColors();
                     }
@@ -65,8 +65,8 @@ namespace TimeManagement.ViewModels
         }
 
         private int _actualId => Collection.IndexOf(_actualShowedActivity);
-        private List<List<ActivityVM>> _programByDays = new List<List<ActivityVM>>();
-        private ActivityVM _actualShowedActivity =>Collection
+        private List<List<ActivityVm>> _programByDays = new List<List<ActivityVm>>();
+        private ActivityVm _actualShowedActivity =>Collection
              .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
         private int _value;
         private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
@@ -77,7 +77,7 @@ namespace TimeManagement.ViewModels
 
         public ActivityViewModel()
         {
-            Collection = new ObservableCollection<ActivityVM>();
+            Collection = new ObservableCollection<ActivityVm>();
             _sqLiteService = new SqLiteService();
             _pageService = new PageService();
             _downloading = new Downloading();
@@ -119,25 +119,25 @@ namespace TimeManagement.ViewModels
             {
                 if (_programByDays.Count == 0)
                 {
-                    _programByDays.Add(new List<ActivityVM>());
-                    _programByDays[day].Add(new ActivityVM(_sQlitedata[_sQlitedata.Count - 1], TimeSpan.Zero, activity.End, day));
-                    _programByDays[day].Add(new ActivityVM(activity));
+                    _programByDays.Add(new List<ActivityVm>());
+                    _programByDays[day].Add(new ActivityVm(_sQlitedata[_sQlitedata.Count - 1], TimeSpan.Zero, activity.End, day));
+                    _programByDays[day].Add(new ActivityVm(activity));
                 }
                 else if ((activity.Name.Trim().ToLower() == "sleeping") &
                     (_sQlitedata.IndexOf(activity) != _sQlitedata.Count - 1))
                 {
-                    _programByDays.Add(new List<ActivityVM>());
+                    _programByDays.Add(new List<ActivityVm>());
                     day++;
-                    _programByDays[day - 1].Add(new ActivityVM(activity, activity.Start, TimeSpan.FromHours(24), day - 1));
-                    _programByDays[day].Add(new ActivityVM(activity, TimeSpan.Zero, activity.End, day));
+                    _programByDays[day - 1].Add(new ActivityVm(activity, activity.Start, TimeSpan.FromHours(24), day - 1));
+                    _programByDays[day].Add(new ActivityVm(activity, TimeSpan.Zero, activity.End, day));
                 }
                 else
                 {
-                    _programByDays[day].Add(new ActivityVM(activity));
+                    _programByDays[day].Add(new ActivityVm(activity));
                 }
             }
             if (_programByDays.Count> _dayOfWeek)
-                Collection = new ObservableCollection<ActivityVM>(_programByDays[_dayOfWeek]);
+                Collection = new ObservableCollection<ActivityVm>(_programByDays[_dayOfWeek]);
         }
 
         private void uIsettings()
@@ -148,7 +148,7 @@ namespace TimeManagement.ViewModels
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());
             Load = new Command(async  () => await ToLoad());
-            Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek).ToString().ToUpper();
+            Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek)?.ToUpper();
         }
         private async Task ToLoad()
         {
@@ -166,9 +166,9 @@ namespace TimeManagement.ViewModels
             }
         }
 
-        private async Task changeDay(bool Next)
+        private async Task changeDay(bool next)
         {
-            if (Next == true)
+            if (next == true)
             {
                 if (_value > 5)
                     _value = 0;
@@ -189,8 +189,8 @@ namespace TimeManagement.ViewModels
 
         private void changeData()
         {
-            Day = Enum.GetName(typeof(DayOfWeek), _value).ToString().ToUpper();
-            Collection = new ObservableCollection<ActivityVM>(_programByDays[_value]);
+            Day = Enum.GetName(typeof(DayOfWeek), _value)?.ToUpper();
+            Collection = new ObservableCollection<ActivityVm>(_programByDays[_value]);
         }
 
         private async Task goHome()
