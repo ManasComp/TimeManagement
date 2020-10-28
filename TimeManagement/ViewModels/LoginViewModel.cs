@@ -76,7 +76,7 @@ namespace TimeManagement.ViewModels
                 return;
             if (_pageService.IsNetwork().Result == false)
             {
-                await _pageService.DisplayNoInternetAlert();;
+                await _pageService.DisplayNoInternetAlert();
                 return;
             }
             try

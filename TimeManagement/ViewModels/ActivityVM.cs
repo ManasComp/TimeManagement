@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace TimeManagement.ViewModels
 {
-    public class ActivityVM:BaseViewModel
+    public class ActivityVm:BaseViewModel
     {
-        public ActivityVM(Activity activity)
+        public ActivityVm(Activity activity)
         {
             Start = activity.Start;
             End = activity.End;
@@ -17,12 +17,12 @@ namespace TimeManagement.ViewModels
             SetColors();
         }
         
-        public ActivityVM(Activity activity, TimeSpan start, TimeSpan end, int day)
+        public ActivityVm(Activity activity, TimeSpan start, TimeSpan end, int day)
         {
             Start = start;
             End = end;
             Name = activity.Name;
-            Day = activity.Day;
+            Day = day;
             Id = activity.Id;
             UserId = activity.UserId;
             SetColors();
