@@ -14,8 +14,7 @@ namespace TimeManagement.ViewModels
             Day = activity.Day;
             Id = activity.Id;
             UserId = activity.UserId;
-            BackgroundTextColor = Color.FromHex("#676767");
-            BackgroundSquareColor = Color.FromHex("#333333");
+            SetColors();
         }
         
         public ActivityVM(Activity activity, TimeSpan start, TimeSpan end, int day)
@@ -26,8 +25,7 @@ namespace TimeManagement.ViewModels
             Day = activity.Day;
             Id = activity.Id;
             UserId = activity.UserId;
-            BackgroundTextColor = Color.FromHex("#676767");
-            BackgroundSquareColor = Color.FromHex("#333333");
+            SetColors();
         }
         
         public TimeSpan Start { get; set; }
@@ -54,6 +52,12 @@ namespace TimeManagement.ViewModels
         public string Duration
         {
             get => string.Format($"{Start:hh\\:mm}" + " - " + $"{End:hh\\:mm}");
+        }
+        
+        public void SetColors()
+        {
+            BackgroundTextColor = Color.FromHex("#676767");
+            BackgroundSquareColor = Color.FromHex("#333333"); 
         }
     }
 }

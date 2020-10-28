@@ -52,8 +52,12 @@ namespace TimeManagement.ViewModels
             set
             {
                 SetValue(ref _collection, value);
-                if (_actualId >= 0 && _collection.Count>_actualId-1)
+                if (_actualId >= 0 && _collection.Count > _actualId - 1)
                 {
+                    foreach (ActivityVM item in Collection.Where(k=> k.Start<=DateTime.Today.TimeOfDay))
+                    {
+                        item.SetColors();
+                    }
                     _collection[_actualId].BackgroundSquareColor = Color.FromHex("#808080");
                     _collection[_actualId].BackgroundTextColor = Color.FromHex("#e1e1e1");
                 }
