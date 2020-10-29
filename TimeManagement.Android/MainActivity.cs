@@ -30,8 +30,8 @@ namespace TimeManagement.Droid
             LoadApplication(new App());
 
 
-            CreateNotificationChannel();
-            AddNotification();
+            CreateNotificationChannel("MainChannel", "Nejaka Sracka");
+            //AddNotification("Test", "FUnhuje to?");
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -40,7 +40,7 @@ namespace TimeManagement.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         
-        void CreateNotificationChannel()
+        void CreateNotificationChannel(string channelName, string channelDescription, string channelId="TimeManagementApp")
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
@@ -49,10 +49,8 @@ namespace TimeManagement.Droid
                 // channel on older versions of Android.
                 return;
             }
-
-            var channelName = "Resources.GetString(Resource.String.channel_name)";
-            var channelDescription =" GetString(Resource.String.channel_description)";
-            var channel = new NotificationChannel("CHANNEL_ID", channelName, NotificationImportance.Default)
+            
+            var channel = new NotificationChannel(channelId, channelName, NotificationImportance.Default)
             {
                 Description = channelDescription
             };
@@ -61,22 +59,22 @@ namespace TimeManagement.Droid
             notificationManager.CreateNotificationChannel(channel);
         }
 
-        public void AddNotification()
+        public void AddNotification(string title, string text, string channelId = "TimeManagementApp", int notificationId= 0)
         {
             // Set up an intent so that tapping the notifications returns to this app:
-            Intent intent = new Intent (this, typeof(MainActivity));
+            //Intent intent = new Intent (this, typeof(MainActivity));
 
             // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
             const int pendingIntentId = 0;
-            PendingIntent pendingIntent =
-                PendingIntent.GetActivity (this, pendingIntentId, intent, PendingIntentFlags.OneShot);
+            // PendingIntent pendingIntent =
+            //     PendingIntent.GetActivity (this, pendingIntentId, intent, PendingIntentFlags.OneShot);
             // Instantiate the builder and set notification elements:
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
-                .SetContentTitle ("Sample Notification")
-                .SetContentText ("Hello World! This is my first notification!")
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .SetContentTitle (title)
+                .SetContentText (text)
                 .SetDefaults ((int)(NotificationDefaults.Sound | NotificationDefaults.Vibrate))
                 .SetSmallIcon (Resource.Drawable.splash_logo)
-                .SetContentIntent (pendingIntent)
+                //.SetContentIntent (pendingIntent)
                 .SetSound (RingtoneManager.GetDefaultUri(RingtoneType.Ringtone));
 
             // Build the notification:
@@ -87,7 +85,6 @@ namespace TimeManagement.Droid
                 GetSystemService (Context.NotificationService) as NotificationManager;
 
             // Publish the notification:
-            const int notificationId = 0;
             notificationManager.Notify (notificationId, notification);
             builder.SetWhen (Java.Lang.JavaSystem.CurrentTimeMillis());
         }

@@ -193,7 +193,10 @@ namespace TimeManagement.ViewModels
         {
             Day = Enum.GetName(typeof(DayOfWeek), _value)?.ToUpper();
             Collection = new ObservableCollection<ActivityVm>(_programByDays[_value]);
-            _pageService.DependencyServiceGet<INotifications>().Result.AddNotification("Notifikace", "Nějaká mrdka");
+            //_pageService.DependencyServiceGet<INotifications>().Result.AddNotification(INotifications);
+            var mrdka = Xamarin.Forms.DependencyService.Get<INotifications>();
+            if (mrdka!=null)
+                mrdka.AddNotification("title","text");
         }
 
         private async Task goHome()

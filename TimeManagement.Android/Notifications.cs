@@ -8,10 +8,10 @@ using TimeManagement.Droid;
 using TimeManagement.Interfaces;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(Notifications))]
+[assembly: Dependency(typeof(TimeManagement.Droid.Notifications))]
 namespace TimeManagement.Droid
 {
-    public class Notifications:global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, INotifications
+    public class Notifications:INotifications
     {
         public async Task CreateNotificationChannel(string channelName, string channelDescription, string channelId="TimeManagementApp")
         {
@@ -62,6 +62,7 @@ namespace TimeManagement.Droid
             // builder.SetWhen (Java.Lang.JavaSystem.CurrentTimeMillis());
             //
             // notificationManager.Notify(notificationId, notification);
+            new MainActivity().AddNotification("Test", "FUnhuje to?");
         }
     }
 }
