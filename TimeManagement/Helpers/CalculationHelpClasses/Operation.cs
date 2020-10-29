@@ -8,12 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+ using TimeManagement.ViewModels;
 
-namespace DM_Service
+ namespace DM_Service
 {
-    class Operation : PropertyChangedClass
+    class Operation : BaseViewModel
     {
-
         private Tasks tasks = new Tasks();
 
         public double Result
@@ -33,18 +33,11 @@ namespace DM_Service
         private readonly string[] separators = { "+", "-", "*", "/" };
         private readonly string[] separatorsPreference = { "*", "/" };
 
-        private string save = "";
+        private string _save = "";
         public string Save
         {
-            get
-            {
-                return save;
-            }
-            set
-            {
-                save = value;
-                Changed(nameof(Save));
-            }
+            get => _save;
+            set=> SetValue (ref _save, value);
         }
 
         private List<double> numbers;

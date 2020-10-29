@@ -3,4 +3,19 @@
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<application android:label="TimeManagement" android:theme="@style/MainTheme"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <!--<application android:label="Notification Sample">
+    <receiver
+      android:name="com.google-firevase.iid.FirebaseInstanceIdInternalReceiver"
+      android:exported="false"/>
+    <receiver
+      android:name="com.google-firevase.iid.FirebaseInstanceIdReceiver"
+      android:exported="true"
+      android:permission="com.google.android.c2dm.permission.SEND">
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+        <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+        <category android:name="${applicatioId}"/>
+      </intent-filter>
+    </receiver>/>
+  </application>-->
 </manifest>

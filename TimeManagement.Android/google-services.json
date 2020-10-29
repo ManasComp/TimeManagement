@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "547466954225",
+    "firebase_url": "https://timemanegment-74160.firebaseio.com",
+    "project_id": "timemanegment-74160",
+    "storage_bucket": "timemanegment-74160.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547466954225:android:7e86e6be8f3b32e05a7050",
+        "android_client_info": {
+          "package_name": "com.Manas.timemanagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547466954225-si31uj72e5d7o1po62r11jrnb1r1fd44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX_3OQIJoAJetlVWv8QDFTlgb8QnoeXVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547466954225-si31uj72e5d7o1po62r11jrnb1r1fd44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
