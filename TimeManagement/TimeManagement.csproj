@@ -26,6 +26,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

@@ -9,6 +9,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Support.V4.App;
+using LocalNotifications.Droid;
+using TimeManagement.Interfaces;
+using Xamarin.Forms;
 
 namespace TimeManagement.Droid
 {
@@ -29,10 +32,26 @@ namespace TimeManagement.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
 
-
-            CreateNotificationChannel("MainChannel", "Nejaka Sracka");
+            CreateNotificationFromIntent(Intent);
+            //CreateNotificationChannel("MainChannel", "Nejaka Sracka");
             //AddNotification("Test", "FUnhuje to?");
         }
+        
+        protected override void OnNewIntent(Intent intent)
+        {
+            CreateNotificationFromIntent(intent);
+        }
+
+        void CreateNotificationFromIntent(Intent intent)
+        {
+            if (intent?.Extras != null)
+            {
+                string title = intent.Extras.GetString(AndroidNotificationManager.TitleKey);
+                string message = intent.Extras.GetString(AndroidNotificationManager.MessageKey);
+                DependencyService.Get<INotificationManager>().ReceiveNotification(title, message);
+            }
+        }
+        
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -55,7 +74,7 @@ namespace TimeManagement.Droid
                 Description = channelDescription
             };
 
-            var notificationManager = (NotificationManager) GetSystemService(NotificationService);
+            var notificationManager = (Android.App.NotificationManager) GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);
         }
 
@@ -81,8 +100,8 @@ namespace TimeManagement.Droid
             Notification notification = builder.Build();
 
             // Get the notification manager:
-            NotificationManager notificationManager =
-                GetSystemService (Context.NotificationService) as NotificationManager;
+            Android.App.NotificationManager notificationManager =
+                GetSystemService (Context.NotificationService) as Android.App.NotificationManager;
 
             // Publish the notification:
             notificationManager.Notify (notificationId, notification);

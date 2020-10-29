@@ -31,6 +31,7 @@ namespace TimeManagement
             {
                 MainPage = new ShellView();
             }
+            MainPage = new TestPage();
         }
 
         protected override async void OnStart()
