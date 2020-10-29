@@ -6,7 +6,6 @@ using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Android.Support.V4.App;
 using TimeManagement.Helpers;
 using TimeManagement.Interfaces;
 using TimeManagement.Models;
