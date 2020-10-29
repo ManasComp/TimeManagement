@@ -6,10 +6,10 @@ using TimeManagement.Droid;
 using TimeManagement.Interfaces;
 using Xamarin.Forms;
 
-[assembly:Dependency(typeof(SqLiteAndroid))]
+[assembly:Dependency(typeof(SqLite_Android))]
 namespace TimeManagement.Droid
 {
-    public class SqLiteAndroid:ISqLite
+    public class SqLite_Android:ISqLite
     {
         public SQLiteAsyncConnection GetConnection()
         {
