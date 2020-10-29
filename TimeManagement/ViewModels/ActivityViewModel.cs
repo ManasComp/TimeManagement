@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Support.V4.App;
 using TimeManagement.Helpers;
 using TimeManagement.Interfaces;
 using TimeManagement.Models;
@@ -22,14 +24,14 @@ namespace TimeManagement.ViewModels
         public ICommand Load { get; set; }
         private readonly CrashesHelper _crashesHelper;
         private readonly MessagingCenterHelper _messagingCenterHelper;
-        
+
         private string _day;
         public string Day
         {
             set => SetValue(ref _day, value);
             get => _day;
         }
-        
+
         private bool _isRefreshing;
 
         public bool IsRefreshing
@@ -37,7 +39,7 @@ namespace TimeManagement.ViewModels
             set => SetValue(ref _isRefreshing, value);
             get => _isRefreshing;
         }
-        
+
         private double _activitiesOpacity;
         public double ActivitiesOpacity
         {
@@ -54,7 +56,7 @@ namespace TimeManagement.ViewModels
                 SetValue(ref _collection, value);
                 if (_actualId >= 0 && _collection.Count > _actualId - 1)
                 {
-                    foreach (ActivityVm item in Collection.Where(k=> k.Start<=DateTime.Today.TimeOfDay))
+                    foreach (ActivityVm item in Collection.Where(k => k.Start <= DateTime.Today.TimeOfDay))
                     {
                         item.SetColors();
                     }
@@ -66,10 +68,10 @@ namespace TimeManagement.ViewModels
 
         private int _actualId => Collection.IndexOf(_actualShowedActivity);
         private List<List<ActivityVm>> _programByDays = new List<List<ActivityVm>>();
-        private ActivityVm _actualShowedActivity =>Collection
+        private ActivityVm _actualShowedActivity => Collection
              .LastOrDefault(activity => activity.Start <= DateTime.Now.TimeOfDay);
         private int _value;
-        private int _dayOfWeek => (int) DateTime.Today.DayOfWeek;
+        private int _dayOfWeek => (int)DateTime.Today.DayOfWeek;
         private SqLiteService _sqLiteService;
         private readonly PageService _pageService;
         private readonly Downloading _downloading;
@@ -85,7 +87,7 @@ namespace TimeManagement.ViewModels
             _messagingCenterHelper = new MessagingCenterHelper();
             _pageService.MessagingCenterSubscribe<ShellViewModel, ActivityViewModel>(this, _messagingCenterHelper.Refreshing, new Command(async () => await refresh()));
             _value = _dayOfWeek;
-            
+
             uIsettings();
         }
 
@@ -136,7 +138,7 @@ namespace TimeManagement.ViewModels
                     _programByDays[day].Add(new ActivityVm(activity));
                 }
             }
-            if (_programByDays.Count> _dayOfWeek)
+            if (_programByDays.Count > _dayOfWeek)
                 Collection = new ObservableCollection<ActivityVm>(_programByDays[_dayOfWeek]);
         }
 
@@ -147,7 +149,7 @@ namespace TimeManagement.ViewModels
             Next = new Command(async () => await changeDay(true));
             Before = new Command(async () => await changeDay(false));
             Actual = new Command(async () => await goHome());
-            Load = new Command(async  () => await ToLoad());
+            Load = new Command(async () => await ToLoad());
             Day = Enum.GetName(typeof(DayOfWeek), _dayOfWeek)?.ToUpper();
         }
         private async Task ToLoad()
@@ -187,17 +189,21 @@ namespace TimeManagement.ViewModels
             changeData();
         }
 
-        private void changeData()
+        private async void changeData()
         {
             Day = Enum.GetName(typeof(DayOfWeek), _value)?.ToUpper();
             Collection = new ObservableCollection<ActivityVm>(_programByDays[_value]);
+            //_pageService.DependencyServiceGet<INotifications>().Result.AddNotification(INotifications);
+            // var mrdka = Xamarin.Forms.DependencyService.Get<INotificationManager>();
+            // if (mrdka!=null)
+            //     mrdka.AddNotification("title","text");
         }
 
         private async Task goHome()
         {
             if (_value != _dayOfWeek)
             {
-                _value=_dayOfWeek;
+                _value = _dayOfWeek;
                 changeData();
             }
             scrollToItem(_actualId);
@@ -206,8 +212,8 @@ namespace TimeManagement.ViewModels
 
         private void scrollToItem(int index)
         {
-            if (index>=0)
-                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Center,true);
+            if (index >= 0)
+                View.CollectionView.ScrollTo(_actualShowedActivity, null, ScrollToPosition.Center, true);
         }
     }
 }

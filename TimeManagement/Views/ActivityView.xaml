@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline"  HorizontalOptions="Center"/>
+        <Label Text="{Binding Day}" TextColor="White" FontSize="50" TextDecorations="Underline" VerticalOptions="Center" HorizontalOptions="Center"/>
         
            <CollectionView Opacity="{Binding ActivitiesOpacity}" x:Name="Activities_CollectionView" SelectionMode="Single" VerticalOptions="Center" Grid.Row="1" ItemsSource="{Binding Collection}"  BackgroundColor="Transparent">
                <CollectionView.ItemTemplate>
@@ -39,9 +39,9 @@
        </StackLayout>
        
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="2" HeightRequest="60">
-            <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.left.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="Start" Command="{Binding Before}"/>
+            <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.left.png}" WidthRequest="30" HeightRequest="30" HorizontalOptions="Start" Command="{Binding Before}"/>
             <ImageButton BackgroundColor="Transparent"  Source="{local:EmbeddedImage TimeManagement.Images.home.png}" WidthRequest="60" HeightRequest="60" HorizontalOptions="CenterAndExpand" Command="{Binding Actual}"/>
-            <ImageButton BackgroundColor="Transparent" Source="{local:EmbeddedImage TimeManagement.Images.right.png}" WidthRequest="60" HeightRequest="30" HorizontalOptions="End" Command="{Binding Next}"/>
+            <ImageButton BackgroundColor="Transparent" Source="{local:EmbeddedImage TimeManagement.Images.right.png}" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" Command="{Binding Next}"/>
         </StackLayout>
         
     </Grid>

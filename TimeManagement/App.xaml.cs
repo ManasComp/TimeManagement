@@ -1,6 +1,7 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using System;
+using DM_Service;
 using TimeManagement.Services;
 using TimeManagement.Views;
 using Xamarin.Forms;
@@ -31,6 +32,8 @@ namespace TimeManagement
             {
                 MainPage = new ShellView();
             }
+            //MainPage = new TestPage();
+            //MainPage = new Calculation();
         }
 
         protected override async void OnStart()
