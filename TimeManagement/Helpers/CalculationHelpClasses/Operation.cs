@@ -1,16 +1,10 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Diagnostics;
- using TimeManagement.ViewModels;
+using System.Linq;
+using TimeManagement.ViewModels;
 
- namespace DM_Service
+namespace TimeManagement.Helpers.CalculationHelpClasses
 {
     class Operation : BaseViewModel
     {

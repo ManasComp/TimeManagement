@@ -37,6 +37,7 @@ namespace TimeManagement.ViewModels
             Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
             About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
+            About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new Calculation())));
         }
         private async Task loadNewData()
         {

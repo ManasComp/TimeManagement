@@ -1,7 +1,6 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using System;
-using DM_Service;
 using TimeManagement.Services;
 using TimeManagement.Views;
 using Xamarin.Forms;

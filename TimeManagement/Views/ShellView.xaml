@@ -30,5 +30,6 @@
     </FlyoutItem>
         <MenuItem Text="Logout" Clicked="Logout_OnClicked"/>
         <MenuItem Text="Refresh Data" Clicked="RefreshData_OnClicked"/>
+        <MenuItem Text="Calculator" Clicked="About_OnClicked"/>
         <MenuItem Text="About App" Clicked="About_OnClicked"/>
 </Shell>

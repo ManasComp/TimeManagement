@@ -1,8 +1,6 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
-namespace DM_Service
+namespace TimeManagement.Helpers.CalculationHelpClasses
 {
     class Tasks
     {

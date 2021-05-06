@@ -4,8 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DM_Service.Calculation"
-             BackgroundColor="#354242">
+             x:Class="TimeManagement.Views.Calculation"
+             BackgroundColor="#354242"
+             Title= "Calculator">
     <RelativeLayout Padding="20" Margin="10">
         <StackLayout x:Name="Display_StackLayout" RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=0.3}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
             <Label x:Name="Display_Label" Grid.Row="0" HorizontalOptions="EndAndExpand" Text="0" FontSize="50" FontAttributes="Bold" TextColor="White"/>
