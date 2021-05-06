@@ -19,6 +19,7 @@ namespace TimeManagement.ViewModels
         public ICommand LogoutCommand { get; set; }
         public ICommand Refresh { get; set; }
         public ICommand About { get; set; }
+        public ICommand Calculator { get; set; }
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -37,7 +38,7 @@ namespace TimeManagement.ViewModels
             Refresh = new Command(async () => loadNewData());
             LogoutCommand = new Command(async() => await logoutUserAsync());
             About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new AboutView())));
-            About = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new Calculation())));
+            Calculator = new Command(async() => await _pageService.PushModalAsync(new NavigationPage(new Calculation())));
         }
         private async Task loadNewData()
         {

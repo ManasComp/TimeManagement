@@ -31,5 +31,9 @@ namespace TimeManagement.Views
             _shellViewModel.About.Execute(null);
         }
         
+        private void Calculator_OnClicked(object sender, EventArgs e)
+        {
+            _shellViewModel.Calculator.Execute(null);
+        }
     }
 }
