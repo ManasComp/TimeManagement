@@ -137,6 +137,7 @@ namespace TimeManagement.ViewModels
             finally
             {
                 IsBusy = false;
+                await _pageService.DisplayAlert("Warning", "Please restart the application", "OK");
             }
         }
 

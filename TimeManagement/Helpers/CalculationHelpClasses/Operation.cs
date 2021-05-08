@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TimeManagement.Services;
 using TimeManagement.ViewModels;
 
 namespace TimeManagement.Helpers.CalculationHelpClasses
@@ -9,6 +10,7 @@ namespace TimeManagement.Helpers.CalculationHelpClasses
     class Operation : BaseViewModel
     {
         private Tasks tasks = new Tasks();
+        private PageService _pageService;
 
         public double Result
         {
@@ -22,6 +24,7 @@ namespace TimeManagement.Helpers.CalculationHelpClasses
         public Operation(string text)
         {
             input = text.Trim().ToLower();
+            _pageService = new PageService();
         }
 
         private readonly string[] separators = { "+", "-", "*", "/" };
@@ -74,7 +77,14 @@ namespace TimeManagement.Helpers.CalculationHelpClasses
             OperatorsQuee();
             if (numbers.Count() != operators.Count() + 1)
             {
-                throw new ArgumentException("wrong input");
+                try
+                {
+                    throw new ArgumentException("An input adjustment has been made");
+                }
+                catch (Exception ex)
+                {
+                     _pageService.DisplayAlert("Warning", ex.Message, "OK");
+                }
             }
             SavingString();
             Preference();

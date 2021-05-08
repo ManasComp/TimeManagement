@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
  using TimeManagement.Helpers.CalculationHelpClasses;
- using Xamarin.Forms;
+using TimeManagement.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TimeManagement.Views
@@ -15,12 +16,12 @@ namespace TimeManagement.Views
         public Calculation()
         {
             InitializeComponent();
+            _pageService = new PageService();
         }
 
+        private PageService _pageService;
         private Operation operation;
-
         private List<string> previousText = new List<string>();
-
         private bool validity = false;
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -71,6 +72,11 @@ namespace TimeManagement.Views
                     Display_Label.Text += objStr;
                 }
             }
+        }
+
+        private async void Back_clicked(object sender, EventArgs e)
+        {
+           await _pageService.PopModalAsync();
         }
     }
 }

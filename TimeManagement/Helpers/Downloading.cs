@@ -38,8 +38,7 @@ namespace TimeManagement.Helpers
             {
                 await _pageService.DisplayAlert("er", ex.Message, "OK");
             }
-
-
+            
             await _sqLiteService.DeleteAllAsync();
             if (_activities != null)//problem solution
             {
